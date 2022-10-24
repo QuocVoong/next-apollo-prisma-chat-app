@@ -1,0 +1,50 @@
+query Conversations($take: Int, $skip: Int, $where: ConversationWhereInput, $messageTake2: Int, $messageSkip2: Int, $orderBy: [MessageOrderByWithRelationInput!]) {
+    conversations(take: $take, skip: $skip, where: $where) {
+        id
+        name
+        secondaryName
+        creatorId
+        Paticipants {
+            id
+            type
+            user {
+                id
+                email
+                username
+                photo
+            }
+            conversationId
+        }
+        Message(take: $messageTake2, skip: $messageSkip2, orderBy: $orderBy) {
+            id
+            from
+            conversationId
+            text
+        }
+    }
+    aggregateConversation(where: $where) {
+        _count {
+            _all
+        }
+    }
+}
+
+query Conversation($take: Int, $skip: Int, $where: ConversationWhereInput) {
+    findFirstConversation(take: $take, skip: $skip, where: $where) {
+        id
+        name
+        secondaryName
+        creatorId
+        Paticipants {
+            id
+            type
+            userId
+            user {
+                id
+                email
+                username
+                photo
+            }
+        }
+    }
+}

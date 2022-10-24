@@ -1,0 +1,24 @@
+query Messages($where: MessageWhereInput, $skip: Int, $take: Int, $orderBy: [MessageOrderByWithRelationInput!]) {
+    messages(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
+        id
+        from
+        conversationId
+        text
+        createdAt
+        updatedAt
+        fromUser {
+            id
+            email
+            username
+        }
+        conversation {
+            id
+            name
+        }
+    },
+    aggregateMessage(where: $where) {
+        _count {
+            _all
+        }
+    }
+}

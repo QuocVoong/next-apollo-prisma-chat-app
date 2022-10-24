@@ -1,0 +1,2177 @@
+type Query {
+  aggregateConversation(where: ConversationWhereInput, orderBy: [ConversationOrderByWithRelationInput!], cursor: ConversationWhereUniqueInput, take: Int, skip: Int): AggregateConversation!
+  findFirstConversation(where: ConversationWhereInput, orderBy: [ConversationOrderByWithRelationInput!], cursor: ConversationWhereUniqueInput, take: Int, skip: Int, distinct: [ConversationScalarFieldEnum!]): Conversation
+  conversations(where: ConversationWhereInput, orderBy: [ConversationOrderByWithRelationInput!], cursor: ConversationWhereUniqueInput, take: Int, skip: Int, distinct: [ConversationScalarFieldEnum!]): [Conversation!]!
+  conversation(where: ConversationWhereUniqueInput!): Conversation
+  groupByConversation(where: ConversationWhereInput, orderBy: [ConversationOrderByWithAggregationInput!], by: [ConversationScalarFieldEnum!]!, having: ConversationScalarWhereWithAggregatesInput, take: Int, skip: Int): [ConversationGroupBy!]!
+  aggregateMessage(where: MessageWhereInput, orderBy: [MessageOrderByWithRelationInput!], cursor: MessageWhereUniqueInput, take: Int, skip: Int): AggregateMessage!
+  findFirstMessage(where: MessageWhereInput, orderBy: [MessageOrderByWithRelationInput!], cursor: MessageWhereUniqueInput, take: Int, skip: Int, distinct: [MessageScalarFieldEnum!]): Message
+  messages(where: MessageWhereInput, orderBy: [MessageOrderByWithRelationInput!], cursor: MessageWhereUniqueInput, take: Int, skip: Int, distinct: [MessageScalarFieldEnum!]): [Message!]!
+  message(where: MessageWhereUniqueInput!): Message
+  groupByMessage(where: MessageWhereInput, orderBy: [MessageOrderByWithAggregationInput!], by: [MessageScalarFieldEnum!]!, having: MessageScalarWhereWithAggregatesInput, take: Int, skip: Int): [MessageGroupBy!]!
+  aggregatePaticipants(where: PaticipantsWhereInput, orderBy: [PaticipantsOrderByWithRelationInput!], cursor: PaticipantsWhereUniqueInput, take: Int, skip: Int): AggregatePaticipants!
+  findFirstPaticipants(where: PaticipantsWhereInput, orderBy: [PaticipantsOrderByWithRelationInput!], cursor: PaticipantsWhereUniqueInput, take: Int, skip: Int, distinct: [PaticipantsScalarFieldEnum!]): Paticipants
+  findManyPaticipants(where: PaticipantsWhereInput, orderBy: [PaticipantsOrderByWithRelationInput!], cursor: PaticipantsWhereUniqueInput, take: Int, skip: Int, distinct: [PaticipantsScalarFieldEnum!]): [Paticipants!]!
+  findUniquePaticipants(where: PaticipantsWhereUniqueInput!): Paticipants
+  groupByPaticipants(where: PaticipantsWhereInput, orderBy: [PaticipantsOrderByWithAggregationInput!], by: [PaticipantsScalarFieldEnum!]!, having: PaticipantsScalarWhereWithAggregatesInput, take: Int, skip: Int): [PaticipantsGroupBy!]!
+  aggregateUser(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int): AggregateUser!
+  findFirstUser(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): User
+  users(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): [User!]!
+  user(where: UserWhereUniqueInput!): User
+  groupByUser(where: UserWhereInput, orderBy: [UserOrderByWithAggregationInput!], by: [UserScalarFieldEnum!]!, having: UserScalarWhereWithAggregatesInput, take: Int, skip: Int): [UserGroupBy!]!
+  getMe: UserResponse!
+  refreshAccessToken: LoginResponse!
+  logoutUser: Boolean!
+}
+
+type AggregateConversation {
+  _count: ConversationCountAggregate
+  _min: ConversationMinAggregate
+  _max: ConversationMaxAggregate
+}
+
+type ConversationCountAggregate {
+  id: Int!
+  name: Int!
+  secondaryName: Int!
+  creatorId: Int!
+  isDeleted: Int!
+  createdAt: Int!
+  updatedAt: Int!
+  _all: Int!
+}
+
+type ConversationMinAggregate {
+  id: String
+  name: String
+  secondaryName: String
+  creatorId: String
+  isDeleted: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
+type ConversationMaxAggregate {
+  id: String
+  name: String
+  secondaryName: String
+  creatorId: String
+  isDeleted: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input ConversationWhereInput {
+  AND: [ConversationWhereInput!]
+  OR: [ConversationWhereInput!]
+  NOT: [ConversationWhereInput!]
+  id: StringFilter
+  name: StringNullableFilter
+  secondaryName: StringNullableFilter
+  creator: UserRelationFilter
+  creatorId: StringFilter
+  isDeleted: BoolFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  Message: MessageListRelationFilter
+  Paticipants: PaticipantsListRelationFilter
+}
+
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+input NestedStringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableFilter
+}
+
+input NestedStringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableFilter
+}
+
+input UserRelationFilter {
+  is: UserWhereInput
+  isNot: UserWhereInput
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  id: StringFilter
+  email: StringFilter
+  username: StringNullableFilter
+  firstName: StringNullableFilter
+  lastName: StringNullableFilter
+  phoneNumber: StringNullableFilter
+  photo: StringNullableFilter
+  isAdmin: BoolFilter
+  active: BoolFilter
+  count: IntFilter
+  Message: MessageListRelationFilter
+  Paticipants: PaticipantsListRelationFilter
+  ownerContact: UserContactListRelationFilter
+  contactUser: UserContactListRelationFilter
+  Conversation: ConversationListRelationFilter
+}
+
+input BoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input NestedBoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input NestedIntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input MessageListRelationFilter {
+  every: MessageWhereInput
+  some: MessageWhereInput
+  none: MessageWhereInput
+}
+
+input MessageWhereInput {
+  AND: [MessageWhereInput!]
+  OR: [MessageWhereInput!]
+  NOT: [MessageWhereInput!]
+  id: StringFilter
+  fromUser: UserRelationFilter
+  from: StringFilter
+  conversation: ConversationRelationFilter
+  conversationId: StringFilter
+  text: StringFilter
+  isDeleted: BoolFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+}
+
+input ConversationRelationFilter {
+  is: ConversationWhereInput
+  isNot: ConversationWhereInput
+}
+
+input DateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input NestedDateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input PaticipantsListRelationFilter {
+  every: PaticipantsWhereInput
+  some: PaticipantsWhereInput
+  none: PaticipantsWhereInput
+}
+
+input PaticipantsWhereInput {
+  AND: [PaticipantsWhereInput!]
+  OR: [PaticipantsWhereInput!]
+  NOT: [PaticipantsWhereInput!]
+  id: StringFilter
+  type: StringFilter
+  user: UserRelationFilter
+  userId: StringFilter
+  conversation: ConversationRelationFilter
+  conversationId: StringFilter
+  joinedDate: DateTimeFilter
+  leftDate: DateTimeFilter
+}
+
+input UserContactListRelationFilter {
+  every: UserContactWhereInput
+  some: UserContactWhereInput
+  none: UserContactWhereInput
+}
+
+input UserContactWhereInput {
+  AND: [UserContactWhereInput!]
+  OR: [UserContactWhereInput!]
+  NOT: [UserContactWhereInput!]
+  ownerContact: UserRelationFilter
+  ownerContactId: StringFilter
+  contactUser: UserRelationFilter
+  contactId: StringFilter
+  email: StringFilter
+  username: StringNullableFilter
+  firstName: StringNullableFilter
+  lastName: StringNullableFilter
+  phoneNumber: StringNullableFilter
+  photo: StringNullableFilter
+}
+
+input ConversationListRelationFilter {
+  every: ConversationWhereInput
+  some: ConversationWhereInput
+  none: ConversationWhereInput
+}
+
+input ConversationOrderByWithRelationInput {
+  id: SortOrder
+  name: SortOrder
+  secondaryName: SortOrder
+  creator: UserOrderByWithRelationInput
+  creatorId: SortOrder
+  isDeleted: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  Message: MessageOrderByRelationAggregateInput
+  Paticipants: PaticipantsOrderByRelationAggregateInput
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input UserOrderByWithRelationInput {
+  id: SortOrder
+  email: SortOrder
+  username: SortOrder
+  firstName: SortOrder
+  lastName: SortOrder
+  phoneNumber: SortOrder
+  photo: SortOrder
+  isAdmin: SortOrder
+  active: SortOrder
+  count: SortOrder
+  Message: MessageOrderByRelationAggregateInput
+  Paticipants: PaticipantsOrderByRelationAggregateInput
+  ownerContact: UserContactOrderByRelationAggregateInput
+  contactUser: UserContactOrderByRelationAggregateInput
+  Conversation: ConversationOrderByRelationAggregateInput
+}
+
+input MessageOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input PaticipantsOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input UserContactOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input ConversationOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input ConversationWhereUniqueInput {
+  id: String
+}
+
+type Conversation {
+  id: String!
+  name: String
+  secondaryName: String
+  creatorId: String!
+  isDeleted: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  _count: ConversationCount
+  creator: User!
+  Message(where: MessageWhereInput, orderBy: [MessageOrderByWithRelationInput!], cursor: MessageWhereUniqueInput, take: Int, skip: Int, distinct: [MessageScalarFieldEnum!]): [Message!]!
+  Paticipants(where: PaticipantsWhereInput, orderBy: [PaticipantsOrderByWithRelationInput!], cursor: PaticipantsWhereUniqueInput, take: Int, skip: Int, distinct: [PaticipantsScalarFieldEnum!]): [Paticipants!]!
+}
+
+type ConversationCount {
+  Message: Int!
+  Paticipants: Int!
+}
+
+type User {
+  id: String!
+  email: String!
+  username: String
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  photo: String
+  isAdmin: Boolean!
+  active: Boolean!
+  count: Int!
+  _count: UserCount
+}
+
+type UserCount {
+  Message: Int!
+  Paticipants: Int!
+  ownerContact: Int!
+  contactUser: Int!
+  Conversation: Int!
+}
+
+type Message {
+  id: String!
+  from: String!
+  conversationId: String!
+  text: String!
+  isDeleted: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  fromUser: User!
+  conversation: Conversation!
+}
+
+input MessageOrderByWithRelationInput {
+  id: SortOrder
+  fromUser: UserOrderByWithRelationInput
+  from: SortOrder
+  conversation: ConversationOrderByWithRelationInput
+  conversationId: SortOrder
+  text: SortOrder
+  isDeleted: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+}
+
+input MessageWhereUniqueInput {
+  id: String
+}
+
+enum MessageScalarFieldEnum {
+  id
+  from
+  conversationId
+  text
+  isDeleted
+  createdAt
+  updatedAt
+}
+
+type Paticipants {
+  id: String!
+  type: String!
+  userId: String!
+  conversationId: String!
+  joinedDate: DateTime!
+  leftDate: DateTime!
+  user: User!
+  conversation: Conversation!
+}
+
+input PaticipantsOrderByWithRelationInput {
+  id: SortOrder
+  type: SortOrder
+  user: UserOrderByWithRelationInput
+  userId: SortOrder
+  conversation: ConversationOrderByWithRelationInput
+  conversationId: SortOrder
+  joinedDate: SortOrder
+  leftDate: SortOrder
+}
+
+input PaticipantsWhereUniqueInput {
+  id: String
+}
+
+enum PaticipantsScalarFieldEnum {
+  id
+  type
+  userId
+  conversationId
+  joinedDate
+  leftDate
+}
+
+enum ConversationScalarFieldEnum {
+  id
+  name
+  secondaryName
+  creatorId
+  isDeleted
+  createdAt
+  updatedAt
+}
+
+type ConversationGroupBy {
+  id: String!
+  name: String
+  secondaryName: String
+  creatorId: String!
+  isDeleted: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  _count: ConversationCountAggregate
+  _min: ConversationMinAggregate
+  _max: ConversationMaxAggregate
+}
+
+input ConversationOrderByWithAggregationInput {
+  id: SortOrder
+  name: SortOrder
+  secondaryName: SortOrder
+  creatorId: SortOrder
+  isDeleted: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  _count: ConversationCountOrderByAggregateInput
+  _max: ConversationMaxOrderByAggregateInput
+  _min: ConversationMinOrderByAggregateInput
+}
+
+input ConversationCountOrderByAggregateInput {
+  id: SortOrder
+  name: SortOrder
+  secondaryName: SortOrder
+  creatorId: SortOrder
+  isDeleted: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+}
+
+input ConversationMaxOrderByAggregateInput {
+  id: SortOrder
+  name: SortOrder
+  secondaryName: SortOrder
+  creatorId: SortOrder
+  isDeleted: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+}
+
+input ConversationMinOrderByAggregateInput {
+  id: SortOrder
+  name: SortOrder
+  secondaryName: SortOrder
+  creatorId: SortOrder
+  isDeleted: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+}
+
+input ConversationScalarWhereWithAggregatesInput {
+  AND: [ConversationScalarWhereWithAggregatesInput!]
+  OR: [ConversationScalarWhereWithAggregatesInput!]
+  NOT: [ConversationScalarWhereWithAggregatesInput!]
+  id: StringWithAggregatesFilter
+  name: StringNullableWithAggregatesFilter
+  secondaryName: StringNullableWithAggregatesFilter
+  creatorId: StringWithAggregatesFilter
+  isDeleted: BoolWithAggregatesFilter
+  createdAt: DateTimeWithAggregatesFilter
+  updatedAt: DateTimeWithAggregatesFilter
+}
+
+input StringWithAggregatesFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringWithAggregatesFilter
+  _count: NestedIntFilter
+  _min: NestedStringFilter
+  _max: NestedStringFilter
+}
+
+input NestedStringWithAggregatesFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringWithAggregatesFilter
+  _count: NestedIntFilter
+  _min: NestedStringFilter
+  _max: NestedStringFilter
+}
+
+input StringNullableWithAggregatesFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableWithAggregatesFilter
+  _count: NestedIntNullableFilter
+  _min: NestedStringNullableFilter
+  _max: NestedStringNullableFilter
+}
+
+input NestedStringNullableWithAggregatesFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableWithAggregatesFilter
+  _count: NestedIntNullableFilter
+  _min: NestedStringNullableFilter
+  _max: NestedStringNullableFilter
+}
+
+input NestedIntNullableFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntNullableFilter
+}
+
+input BoolWithAggregatesFilter {
+  equals: Boolean
+  not: NestedBoolWithAggregatesFilter
+  _count: NestedIntFilter
+  _min: NestedBoolFilter
+  _max: NestedBoolFilter
+}
+
+input NestedBoolWithAggregatesFilter {
+  equals: Boolean
+  not: NestedBoolWithAggregatesFilter
+  _count: NestedIntFilter
+  _min: NestedBoolFilter
+  _max: NestedBoolFilter
+}
+
+input DateTimeWithAggregatesFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeWithAggregatesFilter
+  _count: NestedIntFilter
+  _min: NestedDateTimeFilter
+  _max: NestedDateTimeFilter
+}
+
+input NestedDateTimeWithAggregatesFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeWithAggregatesFilter
+  _count: NestedIntFilter
+  _min: NestedDateTimeFilter
+  _max: NestedDateTimeFilter
+}
+
+type AggregateMessage {
+  _count: MessageCountAggregate
+  _min: MessageMinAggregate
+  _max: MessageMaxAggregate
+}
+
+type MessageCountAggregate {
+  id: Int!
+  from: Int!
+  conversationId: Int!
+  text: Int!
+  isDeleted: Int!
+  createdAt: Int!
+  updatedAt: Int!
+  _all: Int!
+}
+
+type MessageMinAggregate {
+  id: String
+  from: String
+  conversationId: String
+  text: String
+  isDeleted: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type MessageMaxAggregate {
+  id: String
+  from: String
+  conversationId: String
+  text: String
+  isDeleted: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type MessageGroupBy {
+  id: String!
+  from: String!
+  conversationId: String!
+  text: String!
+  isDeleted: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  _count: MessageCountAggregate
+  _min: MessageMinAggregate
+  _max: MessageMaxAggregate
+}
+
+input MessageOrderByWithAggregationInput {
+  id: SortOrder
+  from: SortOrder
+  conversationId: SortOrder
+  text: SortOrder
+  isDeleted: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  _count: MessageCountOrderByAggregateInput
+  _max: MessageMaxOrderByAggregateInput
+  _min: MessageMinOrderByAggregateInput
+}
+
+input MessageCountOrderByAggregateInput {
+  id: SortOrder
+  from: SortOrder
+  conversationId: SortOrder
+  text: SortOrder
+  isDeleted: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+}
+
+input MessageMaxOrderByAggregateInput {
+  id: SortOrder
+  from: SortOrder
+  conversationId: SortOrder
+  text: SortOrder
+  isDeleted: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+}
+
+input MessageMinOrderByAggregateInput {
+  id: SortOrder
+  from: SortOrder
+  conversationId: SortOrder
+  text: SortOrder
+  isDeleted: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+}
+
+input MessageScalarWhereWithAggregatesInput {
+  AND: [MessageScalarWhereWithAggregatesInput!]
+  OR: [MessageScalarWhereWithAggregatesInput!]
+  NOT: [MessageScalarWhereWithAggregatesInput!]
+  id: StringWithAggregatesFilter
+  from: StringWithAggregatesFilter
+  conversationId: StringWithAggregatesFilter
+  text: StringWithAggregatesFilter
+  isDeleted: BoolWithAggregatesFilter
+  createdAt: DateTimeWithAggregatesFilter
+  updatedAt: DateTimeWithAggregatesFilter
+}
+
+type AggregatePaticipants {
+  _count: PaticipantsCountAggregate
+  _min: PaticipantsMinAggregate
+  _max: PaticipantsMaxAggregate
+}
+
+type PaticipantsCountAggregate {
+  id: Int!
+  type: Int!
+  userId: Int!
+  conversationId: Int!
+  joinedDate: Int!
+  leftDate: Int!
+  _all: Int!
+}
+
+type PaticipantsMinAggregate {
+  id: String
+  type: String
+  userId: String
+  conversationId: String
+  joinedDate: DateTime
+  leftDate: DateTime
+}
+
+type PaticipantsMaxAggregate {
+  id: String
+  type: String
+  userId: String
+  conversationId: String
+  joinedDate: DateTime
+  leftDate: DateTime
+}
+
+type PaticipantsGroupBy {
+  id: String!
+  type: String!
+  userId: String!
+  conversationId: String!
+  joinedDate: DateTime!
+  leftDate: DateTime!
+  _count: PaticipantsCountAggregate
+  _min: PaticipantsMinAggregate
+  _max: PaticipantsMaxAggregate
+}
+
+input PaticipantsOrderByWithAggregationInput {
+  id: SortOrder
+  type: SortOrder
+  userId: SortOrder
+  conversationId: SortOrder
+  joinedDate: SortOrder
+  leftDate: SortOrder
+  _count: PaticipantsCountOrderByAggregateInput
+  _max: PaticipantsMaxOrderByAggregateInput
+  _min: PaticipantsMinOrderByAggregateInput
+}
+
+input PaticipantsCountOrderByAggregateInput {
+  id: SortOrder
+  type: SortOrder
+  userId: SortOrder
+  conversationId: SortOrder
+  joinedDate: SortOrder
+  leftDate: SortOrder
+}
+
+input PaticipantsMaxOrderByAggregateInput {
+  id: SortOrder
+  type: SortOrder
+  userId: SortOrder
+  conversationId: SortOrder
+  joinedDate: SortOrder
+  leftDate: SortOrder
+}
+
+input PaticipantsMinOrderByAggregateInput {
+  id: SortOrder
+  type: SortOrder
+  userId: SortOrder
+  conversationId: SortOrder
+  joinedDate: SortOrder
+  leftDate: SortOrder
+}
+
+input PaticipantsScalarWhereWithAggregatesInput {
+  AND: [PaticipantsScalarWhereWithAggregatesInput!]
+  OR: [PaticipantsScalarWhereWithAggregatesInput!]
+  NOT: [PaticipantsScalarWhereWithAggregatesInput!]
+  id: StringWithAggregatesFilter
+  type: StringWithAggregatesFilter
+  userId: StringWithAggregatesFilter
+  conversationId: StringWithAggregatesFilter
+  joinedDate: DateTimeWithAggregatesFilter
+  leftDate: DateTimeWithAggregatesFilter
+}
+
+type AggregateUser {
+  _count: UserCountAggregate
+  _avg: UserAvgAggregate
+  _sum: UserSumAggregate
+  _min: UserMinAggregate
+  _max: UserMaxAggregate
+}
+
+type UserCountAggregate {
+  id: Int!
+  email: Int!
+  username: Int!
+  password: Int!
+  firstName: Int!
+  lastName: Int!
+  phoneNumber: Int!
+  photo: Int!
+  isAdmin: Int!
+  active: Int!
+  count: Int!
+  _all: Int!
+}
+
+type UserAvgAggregate {
+  count: Float
+}
+
+type UserSumAggregate {
+  count: Int
+}
+
+type UserMinAggregate {
+  id: String
+  email: String
+  username: String
+  password: String
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  photo: String
+  isAdmin: Boolean
+  active: Boolean
+  count: Int
+}
+
+type UserMaxAggregate {
+  id: String
+  email: String
+  username: String
+  password: String
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  photo: String
+  isAdmin: Boolean
+  active: Boolean
+  count: Int
+}
+
+input UserWhereUniqueInput {
+  id: String
+  email: String
+}
+
+enum UserScalarFieldEnum {
+  id
+  email
+  username
+  password
+  firstName
+  lastName
+  phoneNumber
+  photo
+  isAdmin
+  active
+  count
+}
+
+type UserGroupBy {
+  id: String!
+  email: String!
+  username: String
+  password: String!
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  photo: String
+  isAdmin: Boolean!
+  active: Boolean!
+  count: Int!
+  _count: UserCountAggregate
+  _avg: UserAvgAggregate
+  _sum: UserSumAggregate
+  _min: UserMinAggregate
+  _max: UserMaxAggregate
+}
+
+input UserOrderByWithAggregationInput {
+  id: SortOrder
+  email: SortOrder
+  username: SortOrder
+  firstName: SortOrder
+  lastName: SortOrder
+  phoneNumber: SortOrder
+  photo: SortOrder
+  isAdmin: SortOrder
+  active: SortOrder
+  count: SortOrder
+  _count: UserCountOrderByAggregateInput
+  _avg: UserAvgOrderByAggregateInput
+  _max: UserMaxOrderByAggregateInput
+  _min: UserMinOrderByAggregateInput
+  _sum: UserSumOrderByAggregateInput
+}
+
+input UserCountOrderByAggregateInput {
+  id: SortOrder
+  email: SortOrder
+  username: SortOrder
+  firstName: SortOrder
+  lastName: SortOrder
+  phoneNumber: SortOrder
+  photo: SortOrder
+  isAdmin: SortOrder
+  active: SortOrder
+  count: SortOrder
+}
+
+input UserAvgOrderByAggregateInput {
+  count: SortOrder
+}
+
+input UserMaxOrderByAggregateInput {
+  id: SortOrder
+  email: SortOrder
+  username: SortOrder
+  firstName: SortOrder
+  lastName: SortOrder
+  phoneNumber: SortOrder
+  photo: SortOrder
+  isAdmin: SortOrder
+  active: SortOrder
+  count: SortOrder
+}
+
+input UserMinOrderByAggregateInput {
+  id: SortOrder
+  email: SortOrder
+  username: SortOrder
+  firstName: SortOrder
+  lastName: SortOrder
+  phoneNumber: SortOrder
+  photo: SortOrder
+  isAdmin: SortOrder
+  active: SortOrder
+  count: SortOrder
+}
+
+input UserSumOrderByAggregateInput {
+  count: SortOrder
+}
+
+input UserScalarWhereWithAggregatesInput {
+  AND: [UserScalarWhereWithAggregatesInput!]
+  OR: [UserScalarWhereWithAggregatesInput!]
+  NOT: [UserScalarWhereWithAggregatesInput!]
+  id: StringWithAggregatesFilter
+  email: StringWithAggregatesFilter
+  username: StringNullableWithAggregatesFilter
+  firstName: StringNullableWithAggregatesFilter
+  lastName: StringNullableWithAggregatesFilter
+  phoneNumber: StringNullableWithAggregatesFilter
+  photo: StringNullableWithAggregatesFilter
+  isAdmin: BoolWithAggregatesFilter
+  active: BoolWithAggregatesFilter
+  count: IntWithAggregatesFilter
+}
+
+input IntWithAggregatesFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntWithAggregatesFilter
+  _count: NestedIntFilter
+  _avg: NestedFloatFilter
+  _sum: NestedIntFilter
+  _min: NestedIntFilter
+  _max: NestedIntFilter
+}
+
+input NestedIntWithAggregatesFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntWithAggregatesFilter
+  _count: NestedIntFilter
+  _avg: NestedFloatFilter
+  _sum: NestedIntFilter
+  _min: NestedIntFilter
+  _max: NestedIntFilter
+}
+
+input NestedFloatFilter {
+  equals: Float
+  in: [Float!]
+  notIn: [Float!]
+  lt: Float
+  lte: Float
+  gt: Float
+  gte: Float
+  not: NestedFloatFilter
+}
+
+type UserResponse {
+  status: String!
+  user: UserData
+}
+
+type UserData {
+  id: String!
+  username: String
+  firstName: String
+  lastName: String
+  email: String!
+  isAdmin: Boolean!
+  photo: String
+  phoneNumber: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type LoginResponse {
+  status: String!
+  message: String!
+}
+
+type Mutation {
+  createOneConversation(data: ConversationCreateInput!): Conversation!
+  deleteManyConversation(where: ConversationWhereInput): AffectedRowsOutput!
+  deleteOneConversation(where: ConversationWhereUniqueInput!): Conversation
+  updateManyConversation(data: ConversationUpdateManyMutationInput!, where: ConversationWhereInput): AffectedRowsOutput!
+  updateOneConversation(data: ConversationUpdateInput!, where: ConversationWhereUniqueInput!): Conversation
+  upsertOneConversation(where: ConversationWhereUniqueInput!, create: ConversationCreateInput!, update: ConversationUpdateInput!): Conversation!
+  createOneMessage(data: MessageCreateInput!): Message!
+  deleteManyMessage(where: MessageWhereInput): AffectedRowsOutput!
+  deleteOneMessage(where: MessageWhereUniqueInput!): Message
+  updateManyMessage(data: MessageUpdateManyMutationInput!, where: MessageWhereInput): AffectedRowsOutput!
+  updateOneMessage(data: MessageUpdateInput!, where: MessageWhereUniqueInput!): Message
+  upsertOneMessage(where: MessageWhereUniqueInput!, create: MessageCreateInput!, update: MessageUpdateInput!): Message!
+  createOnePaticipants(data: PaticipantsCreateInput!): Paticipants!
+  deleteManyPaticipants(where: PaticipantsWhereInput): AffectedRowsOutput!
+  deleteOnePaticipants(where: PaticipantsWhereUniqueInput!): Paticipants
+  updateManyPaticipants(data: PaticipantsUpdateManyMutationInput!, where: PaticipantsWhereInput): AffectedRowsOutput!
+  updateOnePaticipants(data: PaticipantsUpdateInput!, where: PaticipantsWhereUniqueInput!): Paticipants
+  upsertOnePaticipants(where: PaticipantsWhereUniqueInput!, create: PaticipantsCreateInput!, update: PaticipantsUpdateInput!): Paticipants!
+  createOneUser(data: UserCreateInput!): User!
+  deleteManyUser(where: UserWhereInput): AffectedRowsOutput!
+  deleteOneUser(where: UserWhereUniqueInput!): User
+  updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): AffectedRowsOutput!
+  updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  upsertOneUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  signupUser(input: SignUpInput!): UserResponse!
+  loginUser(input: LoginInput!): LoginResponse!
+}
+
+input ConversationCreateInput {
+  id: String
+  name: String
+  secondaryName: String
+  creator: UserCreateNestedOneWithoutConversationInput!
+  isDeleted: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+  Message: MessageCreateNestedManyWithoutConversationInput
+  Paticipants: PaticipantsCreateNestedManyWithoutConversationInput
+}
+
+input UserCreateNestedOneWithoutConversationInput {
+  create: UserCreateWithoutConversationInput
+  connectOrCreate: UserCreateOrConnectWithoutConversationInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutConversationInput {
+  id: String
+  email: String!
+  username: String
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  photo: String
+  isAdmin: Boolean
+  active: Boolean
+  count: Int
+  Message: MessageCreateNestedManyWithoutFromUserInput
+  Paticipants: PaticipantsCreateNestedManyWithoutUserInput
+  ownerContact: UserContactCreateNestedManyWithoutOwnerContactInput
+  contactUser: UserContactCreateNestedManyWithoutContactUserInput
+}
+
+input MessageCreateNestedManyWithoutFromUserInput {
+  create: [MessageCreateWithoutFromUserInput!]
+  connectOrCreate: [MessageCreateOrConnectWithoutFromUserInput!]
+  connect: [MessageWhereUniqueInput!]
+}
+
+input MessageCreateWithoutFromUserInput {
+  id: String
+  conversation: ConversationCreateNestedOneWithoutMessageInput!
+  text: String!
+  isDeleted: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input ConversationCreateNestedOneWithoutMessageInput {
+  create: ConversationCreateWithoutMessageInput
+  connectOrCreate: ConversationCreateOrConnectWithoutMessageInput
+  connect: ConversationWhereUniqueInput
+}
+
+input ConversationCreateWithoutMessageInput {
+  id: String
+  name: String
+  secondaryName: String
+  creator: UserCreateNestedOneWithoutConversationInput!
+  isDeleted: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+  Paticipants: PaticipantsCreateNestedManyWithoutConversationInput
+}
+
+input PaticipantsCreateNestedManyWithoutConversationInput {
+  create: [PaticipantsCreateWithoutConversationInput!]
+  connectOrCreate: [PaticipantsCreateOrConnectWithoutConversationInput!]
+  connect: [PaticipantsWhereUniqueInput!]
+}
+
+input PaticipantsCreateWithoutConversationInput {
+  id: String
+  type: String
+  user: UserCreateNestedOneWithoutPaticipantsInput!
+  joinedDate: DateTime
+  leftDate: DateTime
+}
+
+input UserCreateNestedOneWithoutPaticipantsInput {
+  create: UserCreateWithoutPaticipantsInput
+  connectOrCreate: UserCreateOrConnectWithoutPaticipantsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutPaticipantsInput {
+  id: String
+  email: String!
+  username: String
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  photo: String
+  isAdmin: Boolean
+  active: Boolean
+  count: Int
+  Message: MessageCreateNestedManyWithoutFromUserInput
+  ownerContact: UserContactCreateNestedManyWithoutOwnerContactInput
+  contactUser: UserContactCreateNestedManyWithoutContactUserInput
+  Conversation: ConversationCreateNestedManyWithoutCreatorInput
+}
+
+input UserContactCreateNestedManyWithoutOwnerContactInput {
+  create: [UserContactCreateWithoutOwnerContactInput!]
+  connectOrCreate: [UserContactCreateOrConnectWithoutOwnerContactInput!]
+  connect: [UserContactWhereUniqueInput!]
+}
+
+input UserContactCreateWithoutOwnerContactInput {
+  contactUser: UserCreateNestedOneWithoutContactUserInput!
+  email: String!
+  username: String
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  photo: String
+}
+
+input UserCreateNestedOneWithoutContactUserInput {
+  create: UserCreateWithoutContactUserInput
+  connectOrCreate: UserCreateOrConnectWithoutContactUserInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutContactUserInput {
+  id: String
+  email: String!
+  username: String
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  photo: String
+  isAdmin: Boolean
+  active: Boolean
+  count: Int
+  Message: MessageCreateNestedManyWithoutFromUserInput
+  Paticipants: PaticipantsCreateNestedManyWithoutUserInput
+  ownerContact: UserContactCreateNestedManyWithoutOwnerContactInput
+  Conversation: ConversationCreateNestedManyWithoutCreatorInput
+}
+
+input PaticipantsCreateNestedManyWithoutUserInput {
+  create: [PaticipantsCreateWithoutUserInput!]
+  connectOrCreate: [PaticipantsCreateOrConnectWithoutUserInput!]
+  connect: [PaticipantsWhereUniqueInput!]
+}
+
+input PaticipantsCreateWithoutUserInput {
+  id: String
+  type: String
+  conversation: ConversationCreateNestedOneWithoutPaticipantsInput!
+  joinedDate: DateTime
+  leftDate: DateTime
+}
+
+input ConversationCreateNestedOneWithoutPaticipantsInput {
+  create: ConversationCreateWithoutPaticipantsInput
+  connectOrCreate: ConversationCreateOrConnectWithoutPaticipantsInput
+  connect: ConversationWhereUniqueInput
+}
+
+input ConversationCreateWithoutPaticipantsInput {
+  id: String
+  name: String
+  secondaryName: String
+  creator: UserCreateNestedOneWithoutConversationInput!
+  isDeleted: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+  Message: MessageCreateNestedManyWithoutConversationInput
+}
+
+input MessageCreateNestedManyWithoutConversationInput {
+  create: [MessageCreateWithoutConversationInput!]
+  connectOrCreate: [MessageCreateOrConnectWithoutConversationInput!]
+  connect: [MessageWhereUniqueInput!]
+}
+
+input MessageCreateWithoutConversationInput {
+  id: String
+  fromUser: UserCreateNestedOneWithoutMessageInput!
+  text: String!
+  isDeleted: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input UserCreateNestedOneWithoutMessageInput {
+  create: UserCreateWithoutMessageInput
+  connectOrCreate: UserCreateOrConnectWithoutMessageInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutMessageInput {
+  id: String
+  email: String!
+  username: String
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  photo: String
+  isAdmin: Boolean
+  active: Boolean
+  count: Int
+  Paticipants: PaticipantsCreateNestedManyWithoutUserInput
+  ownerContact: UserContactCreateNestedManyWithoutOwnerContactInput
+  contactUser: UserContactCreateNestedManyWithoutContactUserInput
+  Conversation: ConversationCreateNestedManyWithoutCreatorInput
+}
+
+input UserContactCreateNestedManyWithoutContactUserInput {
+  create: [UserContactCreateWithoutContactUserInput!]
+  connectOrCreate: [UserContactCreateOrConnectWithoutContactUserInput!]
+  connect: [UserContactWhereUniqueInput!]
+}
+
+input UserContactCreateWithoutContactUserInput {
+  ownerContact: UserCreateNestedOneWithoutOwnerContactInput
+  email: String!
+  username: String
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  photo: String
+}
+
+input UserCreateNestedOneWithoutOwnerContactInput {
+  create: UserCreateWithoutOwnerContactInput
+  connectOrCreate: UserCreateOrConnectWithoutOwnerContactInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutOwnerContactInput {
+  id: String
+  email: String!
+  username: String
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  photo: String
+  isAdmin: Boolean
+  active: Boolean
+  count: Int
+  Message: MessageCreateNestedManyWithoutFromUserInput
+  Paticipants: PaticipantsCreateNestedManyWithoutUserInput
+  contactUser: UserContactCreateNestedManyWithoutContactUserInput
+  Conversation: ConversationCreateNestedManyWithoutCreatorInput
+}
+
+input ConversationCreateNestedManyWithoutCreatorInput {
+  create: [ConversationCreateWithoutCreatorInput!]
+  connectOrCreate: [ConversationCreateOrConnectWithoutCreatorInput!]
+  connect: [ConversationWhereUniqueInput!]
+}
+
+input ConversationCreateWithoutCreatorInput {
+  id: String
+  name: String
+  secondaryName: String
+  isDeleted: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+  Message: MessageCreateNestedManyWithoutConversationInput
+  Paticipants: PaticipantsCreateNestedManyWithoutConversationInput
+}
+
+input ConversationCreateOrConnectWithoutCreatorInput {
+  where: ConversationWhereUniqueInput!
+  create: ConversationCreateWithoutCreatorInput!
+}
+
+input UserCreateOrConnectWithoutOwnerContactInput {
+  where: UserWhereUniqueInput!
+  create: UserCreateWithoutOwnerContactInput!
+}
+
+input UserContactCreateOrConnectWithoutContactUserInput {
+  where: UserContactWhereUniqueInput!
+  create: UserContactCreateWithoutContactUserInput!
+}
+
+input UserContactWhereUniqueInput {
+  ownerContactId: String
+  ownerContactId_contactId: UserContactOwnerContactIdContactIdCompoundUniqueInput
+}
+
+input UserContactOwnerContactIdContactIdCompoundUniqueInput {
+  ownerContactId: String!
+  contactId: String!
+}
+
+input UserCreateOrConnectWithoutMessageInput {
+  where: UserWhereUniqueInput!
+  create: UserCreateWithoutMessageInput!
+}
+
+input MessageCreateOrConnectWithoutConversationInput {
+  where: MessageWhereUniqueInput!
+  create: MessageCreateWithoutConversationInput!
+}
+
+input ConversationCreateOrConnectWithoutPaticipantsInput {
+  where: ConversationWhereUniqueInput!
+  create: ConversationCreateWithoutPaticipantsInput!
+}
+
+input PaticipantsCreateOrConnectWithoutUserInput {
+  where: PaticipantsWhereUniqueInput!
+  create: PaticipantsCreateWithoutUserInput!
+}
+
+input UserCreateOrConnectWithoutContactUserInput {
+  where: UserWhereUniqueInput!
+  create: UserCreateWithoutContactUserInput!
+}
+
+input UserContactCreateOrConnectWithoutOwnerContactInput {
+  where: UserContactWhereUniqueInput!
+  create: UserContactCreateWithoutOwnerContactInput!
+}
+
+input UserCreateOrConnectWithoutPaticipantsInput {
+  where: UserWhereUniqueInput!
+  create: UserCreateWithoutPaticipantsInput!
+}
+
+input PaticipantsCreateOrConnectWithoutConversationInput {
+  where: PaticipantsWhereUniqueInput!
+  create: PaticipantsCreateWithoutConversationInput!
+}
+
+input ConversationCreateOrConnectWithoutMessageInput {
+  where: ConversationWhereUniqueInput!
+  create: ConversationCreateWithoutMessageInput!
+}
+
+input MessageCreateOrConnectWithoutFromUserInput {
+  where: MessageWhereUniqueInput!
+  create: MessageCreateWithoutFromUserInput!
+}
+
+input UserCreateOrConnectWithoutConversationInput {
+  where: UserWhereUniqueInput!
+  create: UserCreateWithoutConversationInput!
+}
+
+type AffectedRowsOutput {
+  count: Int!
+}
+
+input ConversationUpdateManyMutationInput {
+  id: StringFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  secondaryName: NullableStringFieldUpdateOperationsInput
+  isDeleted: BoolFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input StringFieldUpdateOperationsInput {
+  set: String
+}
+
+input NullableStringFieldUpdateOperationsInput {
+  set: String
+}
+
+input BoolFieldUpdateOperationsInput {
+  set: Boolean
+}
+
+input DateTimeFieldUpdateOperationsInput {
+  set: DateTime
+}
+
+input ConversationUpdateInput {
+  id: StringFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  secondaryName: NullableStringFieldUpdateOperationsInput
+  creator: UserUpdateOneRequiredWithoutConversationNestedInput
+  isDeleted: BoolFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  Message: MessageUpdateManyWithoutConversationNestedInput
+  Paticipants: PaticipantsUpdateManyWithoutConversationNestedInput
+}
+
+input UserUpdateOneRequiredWithoutConversationNestedInput {
+  create: UserCreateWithoutConversationInput
+  connectOrCreate: UserCreateOrConnectWithoutConversationInput
+  upsert: UserUpsertWithoutConversationInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutConversationInput
+}
+
+input UserUpsertWithoutConversationInput {
+  update: UserUpdateWithoutConversationInput!
+  create: UserCreateWithoutConversationInput!
+}
+
+input UserUpdateWithoutConversationInput {
+  id: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  username: NullableStringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  phoneNumber: NullableStringFieldUpdateOperationsInput
+  photo: NullableStringFieldUpdateOperationsInput
+  isAdmin: BoolFieldUpdateOperationsInput
+  active: BoolFieldUpdateOperationsInput
+  count: IntFieldUpdateOperationsInput
+  Message: MessageUpdateManyWithoutFromUserNestedInput
+  Paticipants: PaticipantsUpdateManyWithoutUserNestedInput
+  ownerContact: UserContactUpdateManyWithoutOwnerContactNestedInput
+  contactUser: UserContactUpdateManyWithoutContactUserNestedInput
+}
+
+input IntFieldUpdateOperationsInput {
+  set: Int
+  increment: Int
+  decrement: Int
+  multiply: Int
+  divide: Int
+}
+
+input MessageUpdateManyWithoutFromUserNestedInput {
+  create: [MessageCreateWithoutFromUserInput!]
+  connectOrCreate: [MessageCreateOrConnectWithoutFromUserInput!]
+  upsert: [MessageUpsertWithWhereUniqueWithoutFromUserInput!]
+  set: [MessageWhereUniqueInput!]
+  disconnect: [MessageWhereUniqueInput!]
+  delete: [MessageWhereUniqueInput!]
+  connect: [MessageWhereUniqueInput!]
+  update: [MessageUpdateWithWhereUniqueWithoutFromUserInput!]
+  updateMany: [MessageUpdateManyWithWhereWithoutFromUserInput!]
+  deleteMany: [MessageScalarWhereInput!]
+}
+
+input MessageUpsertWithWhereUniqueWithoutFromUserInput {
+  where: MessageWhereUniqueInput!
+  update: MessageUpdateWithoutFromUserInput!
+  create: MessageCreateWithoutFromUserInput!
+}
+
+input MessageUpdateWithoutFromUserInput {
+  id: StringFieldUpdateOperationsInput
+  conversation: ConversationUpdateOneRequiredWithoutMessageNestedInput
+  text: StringFieldUpdateOperationsInput
+  isDeleted: BoolFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input ConversationUpdateOneRequiredWithoutMessageNestedInput {
+  create: ConversationCreateWithoutMessageInput
+  connectOrCreate: ConversationCreateOrConnectWithoutMessageInput
+  upsert: ConversationUpsertWithoutMessageInput
+  connect: ConversationWhereUniqueInput
+  update: ConversationUpdateWithoutMessageInput
+}
+
+input ConversationUpsertWithoutMessageInput {
+  update: ConversationUpdateWithoutMessageInput!
+  create: ConversationCreateWithoutMessageInput!
+}
+
+input ConversationUpdateWithoutMessageInput {
+  id: StringFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  secondaryName: NullableStringFieldUpdateOperationsInput
+  creator: UserUpdateOneRequiredWithoutConversationNestedInput
+  isDeleted: BoolFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  Paticipants: PaticipantsUpdateManyWithoutConversationNestedInput
+}
+
+input PaticipantsUpdateManyWithoutConversationNestedInput {
+  create: [PaticipantsCreateWithoutConversationInput!]
+  connectOrCreate: [PaticipantsCreateOrConnectWithoutConversationInput!]
+  upsert: [PaticipantsUpsertWithWhereUniqueWithoutConversationInput!]
+  set: [PaticipantsWhereUniqueInput!]
+  disconnect: [PaticipantsWhereUniqueInput!]
+  delete: [PaticipantsWhereUniqueInput!]
+  connect: [PaticipantsWhereUniqueInput!]
+  update: [PaticipantsUpdateWithWhereUniqueWithoutConversationInput!]
+  updateMany: [PaticipantsUpdateManyWithWhereWithoutConversationInput!]
+  deleteMany: [PaticipantsScalarWhereInput!]
+}
+
+input PaticipantsUpsertWithWhereUniqueWithoutConversationInput {
+  where: PaticipantsWhereUniqueInput!
+  update: PaticipantsUpdateWithoutConversationInput!
+  create: PaticipantsCreateWithoutConversationInput!
+}
+
+input PaticipantsUpdateWithoutConversationInput {
+  id: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+  user: UserUpdateOneRequiredWithoutPaticipantsNestedInput
+  joinedDate: DateTimeFieldUpdateOperationsInput
+  leftDate: DateTimeFieldUpdateOperationsInput
+}
+
+input UserUpdateOneRequiredWithoutPaticipantsNestedInput {
+  create: UserCreateWithoutPaticipantsInput
+  connectOrCreate: UserCreateOrConnectWithoutPaticipantsInput
+  upsert: UserUpsertWithoutPaticipantsInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutPaticipantsInput
+}
+
+input UserUpsertWithoutPaticipantsInput {
+  update: UserUpdateWithoutPaticipantsInput!
+  create: UserCreateWithoutPaticipantsInput!
+}
+
+input UserUpdateWithoutPaticipantsInput {
+  id: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  username: NullableStringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  phoneNumber: NullableStringFieldUpdateOperationsInput
+  photo: NullableStringFieldUpdateOperationsInput
+  isAdmin: BoolFieldUpdateOperationsInput
+  active: BoolFieldUpdateOperationsInput
+  count: IntFieldUpdateOperationsInput
+  Message: MessageUpdateManyWithoutFromUserNestedInput
+  ownerContact: UserContactUpdateManyWithoutOwnerContactNestedInput
+  contactUser: UserContactUpdateManyWithoutContactUserNestedInput
+  Conversation: ConversationUpdateManyWithoutCreatorNestedInput
+}
+
+input UserContactUpdateManyWithoutOwnerContactNestedInput {
+  create: [UserContactCreateWithoutOwnerContactInput!]
+  connectOrCreate: [UserContactCreateOrConnectWithoutOwnerContactInput!]
+  upsert: [UserContactUpsertWithWhereUniqueWithoutOwnerContactInput!]
+  set: [UserContactWhereUniqueInput!]
+  disconnect: [UserContactWhereUniqueInput!]
+  delete: [UserContactWhereUniqueInput!]
+  connect: [UserContactWhereUniqueInput!]
+  update: [UserContactUpdateWithWhereUniqueWithoutOwnerContactInput!]
+  updateMany: [UserContactUpdateManyWithWhereWithoutOwnerContactInput!]
+  deleteMany: [UserContactScalarWhereInput!]
+}
+
+input UserContactUpsertWithWhereUniqueWithoutOwnerContactInput {
+  where: UserContactWhereUniqueInput!
+  update: UserContactUpdateWithoutOwnerContactInput!
+  create: UserContactCreateWithoutOwnerContactInput!
+}
+
+input UserContactUpdateWithoutOwnerContactInput {
+  contactUser: UserUpdateOneRequiredWithoutContactUserNestedInput
+  email: StringFieldUpdateOperationsInput
+  username: NullableStringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  phoneNumber: NullableStringFieldUpdateOperationsInput
+  photo: NullableStringFieldUpdateOperationsInput
+}
+
+input UserUpdateOneRequiredWithoutContactUserNestedInput {
+  create: UserCreateWithoutContactUserInput
+  connectOrCreate: UserCreateOrConnectWithoutContactUserInput
+  upsert: UserUpsertWithoutContactUserInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutContactUserInput
+}
+
+input UserUpsertWithoutContactUserInput {
+  update: UserUpdateWithoutContactUserInput!
+  create: UserCreateWithoutContactUserInput!
+}
+
+input UserUpdateWithoutContactUserInput {
+  id: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  username: NullableStringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  phoneNumber: NullableStringFieldUpdateOperationsInput
+  photo: NullableStringFieldUpdateOperationsInput
+  isAdmin: BoolFieldUpdateOperationsInput
+  active: BoolFieldUpdateOperationsInput
+  count: IntFieldUpdateOperationsInput
+  Message: MessageUpdateManyWithoutFromUserNestedInput
+  Paticipants: PaticipantsUpdateManyWithoutUserNestedInput
+  ownerContact: UserContactUpdateManyWithoutOwnerContactNestedInput
+  Conversation: ConversationUpdateManyWithoutCreatorNestedInput
+}
+
+input PaticipantsUpdateManyWithoutUserNestedInput {
+  create: [PaticipantsCreateWithoutUserInput!]
+  connectOrCreate: [PaticipantsCreateOrConnectWithoutUserInput!]
+  upsert: [PaticipantsUpsertWithWhereUniqueWithoutUserInput!]
+  set: [PaticipantsWhereUniqueInput!]
+  disconnect: [PaticipantsWhereUniqueInput!]
+  delete: [PaticipantsWhereUniqueInput!]
+  connect: [PaticipantsWhereUniqueInput!]
+  update: [PaticipantsUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [PaticipantsUpdateManyWithWhereWithoutUserInput!]
+  deleteMany: [PaticipantsScalarWhereInput!]
+}
+
+input PaticipantsUpsertWithWhereUniqueWithoutUserInput {
+  where: PaticipantsWhereUniqueInput!
+  update: PaticipantsUpdateWithoutUserInput!
+  create: PaticipantsCreateWithoutUserInput!
+}
+
+input PaticipantsUpdateWithoutUserInput {
+  id: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+  conversation: ConversationUpdateOneRequiredWithoutPaticipantsNestedInput
+  joinedDate: DateTimeFieldUpdateOperationsInput
+  leftDate: DateTimeFieldUpdateOperationsInput
+}
+
+input ConversationUpdateOneRequiredWithoutPaticipantsNestedInput {
+  create: ConversationCreateWithoutPaticipantsInput
+  connectOrCreate: ConversationCreateOrConnectWithoutPaticipantsInput
+  upsert: ConversationUpsertWithoutPaticipantsInput
+  connect: ConversationWhereUniqueInput
+  update: ConversationUpdateWithoutPaticipantsInput
+}
+
+input ConversationUpsertWithoutPaticipantsInput {
+  update: ConversationUpdateWithoutPaticipantsInput!
+  create: ConversationCreateWithoutPaticipantsInput!
+}
+
+input ConversationUpdateWithoutPaticipantsInput {
+  id: StringFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  secondaryName: NullableStringFieldUpdateOperationsInput
+  creator: UserUpdateOneRequiredWithoutConversationNestedInput
+  isDeleted: BoolFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  Message: MessageUpdateManyWithoutConversationNestedInput
+}
+
+input MessageUpdateManyWithoutConversationNestedInput {
+  create: [MessageCreateWithoutConversationInput!]
+  connectOrCreate: [MessageCreateOrConnectWithoutConversationInput!]
+  upsert: [MessageUpsertWithWhereUniqueWithoutConversationInput!]
+  set: [MessageWhereUniqueInput!]
+  disconnect: [MessageWhereUniqueInput!]
+  delete: [MessageWhereUniqueInput!]
+  connect: [MessageWhereUniqueInput!]
+  update: [MessageUpdateWithWhereUniqueWithoutConversationInput!]
+  updateMany: [MessageUpdateManyWithWhereWithoutConversationInput!]
+  deleteMany: [MessageScalarWhereInput!]
+}
+
+input MessageUpsertWithWhereUniqueWithoutConversationInput {
+  where: MessageWhereUniqueInput!
+  update: MessageUpdateWithoutConversationInput!
+  create: MessageCreateWithoutConversationInput!
+}
+
+input MessageUpdateWithoutConversationInput {
+  id: StringFieldUpdateOperationsInput
+  fromUser: UserUpdateOneRequiredWithoutMessageNestedInput
+  text: StringFieldUpdateOperationsInput
+  isDeleted: BoolFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input UserUpdateOneRequiredWithoutMessageNestedInput {
+  create: UserCreateWithoutMessageInput
+  connectOrCreate: UserCreateOrConnectWithoutMessageInput
+  upsert: UserUpsertWithoutMessageInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutMessageInput
+}
+
+input UserUpsertWithoutMessageInput {
+  update: UserUpdateWithoutMessageInput!
+  create: UserCreateWithoutMessageInput!
+}
+
+input UserUpdateWithoutMessageInput {
+  id: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  username: NullableStringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  phoneNumber: NullableStringFieldUpdateOperationsInput
+  photo: NullableStringFieldUpdateOperationsInput
+  isAdmin: BoolFieldUpdateOperationsInput
+  active: BoolFieldUpdateOperationsInput
+  count: IntFieldUpdateOperationsInput
+  Paticipants: PaticipantsUpdateManyWithoutUserNestedInput
+  ownerContact: UserContactUpdateManyWithoutOwnerContactNestedInput
+  contactUser: UserContactUpdateManyWithoutContactUserNestedInput
+  Conversation: ConversationUpdateManyWithoutCreatorNestedInput
+}
+
+input UserContactUpdateManyWithoutContactUserNestedInput {
+  create: [UserContactCreateWithoutContactUserInput!]
+  connectOrCreate: [UserContactCreateOrConnectWithoutContactUserInput!]
+  upsert: [UserContactUpsertWithWhereUniqueWithoutContactUserInput!]
+  set: [UserContactWhereUniqueInput!]
+  disconnect: [UserContactWhereUniqueInput!]
+  delete: [UserContactWhereUniqueInput!]
+  connect: [UserContactWhereUniqueInput!]
+  update: [UserContactUpdateWithWhereUniqueWithoutContactUserInput!]
+  updateMany: [UserContactUpdateManyWithWhereWithoutContactUserInput!]
+  deleteMany: [UserContactScalarWhereInput!]
+}
+
+input UserContactUpsertWithWhereUniqueWithoutContactUserInput {
+  where: UserContactWhereUniqueInput!
+  update: UserContactUpdateWithoutContactUserInput!
+  create: UserContactCreateWithoutContactUserInput!
+}
+
+input UserContactUpdateWithoutContactUserInput {
+  ownerContact: UserUpdateOneRequiredWithoutOwnerContactNestedInput
+  email: StringFieldUpdateOperationsInput
+  username: NullableStringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  phoneNumber: NullableStringFieldUpdateOperationsInput
+  photo: NullableStringFieldUpdateOperationsInput
+}
+
+input UserUpdateOneRequiredWithoutOwnerContactNestedInput {
+  create: UserCreateWithoutOwnerContactInput
+  connectOrCreate: UserCreateOrConnectWithoutOwnerContactInput
+  upsert: UserUpsertWithoutOwnerContactInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutOwnerContactInput
+}
+
+input UserUpsertWithoutOwnerContactInput {
+  update: UserUpdateWithoutOwnerContactInput!
+  create: UserCreateWithoutOwnerContactInput!
+}
+
+input UserUpdateWithoutOwnerContactInput {
+  id: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  username: NullableStringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  phoneNumber: NullableStringFieldUpdateOperationsInput
+  photo: NullableStringFieldUpdateOperationsInput
+  isAdmin: BoolFieldUpdateOperationsInput
+  active: BoolFieldUpdateOperationsInput
+  count: IntFieldUpdateOperationsInput
+  Message: MessageUpdateManyWithoutFromUserNestedInput
+  Paticipants: PaticipantsUpdateManyWithoutUserNestedInput
+  contactUser: UserContactUpdateManyWithoutContactUserNestedInput
+  Conversation: ConversationUpdateManyWithoutCreatorNestedInput
+}
+
+input ConversationUpdateManyWithoutCreatorNestedInput {
+  create: [ConversationCreateWithoutCreatorInput!]
+  connectOrCreate: [ConversationCreateOrConnectWithoutCreatorInput!]
+  upsert: [ConversationUpsertWithWhereUniqueWithoutCreatorInput!]
+  set: [ConversationWhereUniqueInput!]
+  disconnect: [ConversationWhereUniqueInput!]
+  delete: [ConversationWhereUniqueInput!]
+  connect: [ConversationWhereUniqueInput!]
+  update: [ConversationUpdateWithWhereUniqueWithoutCreatorInput!]
+  updateMany: [ConversationUpdateManyWithWhereWithoutCreatorInput!]
+  deleteMany: [ConversationScalarWhereInput!]
+}
+
+input ConversationUpsertWithWhereUniqueWithoutCreatorInput {
+  where: ConversationWhereUniqueInput!
+  update: ConversationUpdateWithoutCreatorInput!
+  create: ConversationCreateWithoutCreatorInput!
+}
+
+input ConversationUpdateWithoutCreatorInput {
+  id: StringFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  secondaryName: NullableStringFieldUpdateOperationsInput
+  isDeleted: BoolFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  Message: MessageUpdateManyWithoutConversationNestedInput
+  Paticipants: PaticipantsUpdateManyWithoutConversationNestedInput
+}
+
+input ConversationUpdateWithWhereUniqueWithoutCreatorInput {
+  where: ConversationWhereUniqueInput!
+  data: ConversationUpdateWithoutCreatorInput!
+}
+
+input ConversationUpdateManyWithWhereWithoutCreatorInput {
+  where: ConversationScalarWhereInput!
+  data: ConversationUpdateManyMutationInput!
+}
+
+input ConversationScalarWhereInput {
+  AND: [ConversationScalarWhereInput!]
+  OR: [ConversationScalarWhereInput!]
+  NOT: [ConversationScalarWhereInput!]
+  id: StringFilter
+  name: StringNullableFilter
+  secondaryName: StringNullableFilter
+  creatorId: StringFilter
+  isDeleted: BoolFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+}
+
+input UserContactUpdateWithWhereUniqueWithoutContactUserInput {
+  where: UserContactWhereUniqueInput!
+  data: UserContactUpdateWithoutContactUserInput!
+}
+
+input UserContactUpdateManyWithWhereWithoutContactUserInput {
+  where: UserContactScalarWhereInput!
+  data: UserContactUpdateManyMutationInput!
+}
+
+input UserContactScalarWhereInput {
+  AND: [UserContactScalarWhereInput!]
+  OR: [UserContactScalarWhereInput!]
+  NOT: [UserContactScalarWhereInput!]
+  ownerContactId: StringFilter
+  contactId: StringFilter
+  email: StringFilter
+  username: StringNullableFilter
+  firstName: StringNullableFilter
+  lastName: StringNullableFilter
+  phoneNumber: StringNullableFilter
+  photo: StringNullableFilter
+}
+
+input UserContactUpdateManyMutationInput {
+  email: StringFieldUpdateOperationsInput
+  username: NullableStringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  phoneNumber: NullableStringFieldUpdateOperationsInput
+  photo: NullableStringFieldUpdateOperationsInput
+}
+
+input MessageUpdateWithWhereUniqueWithoutConversationInput {
+  where: MessageWhereUniqueInput!
+  data: MessageUpdateWithoutConversationInput!
+}
+
+input MessageUpdateManyWithWhereWithoutConversationInput {
+  where: MessageScalarWhereInput!
+  data: MessageUpdateManyMutationInput!
+}
+
+input MessageScalarWhereInput {
+  AND: [MessageScalarWhereInput!]
+  OR: [MessageScalarWhereInput!]
+  NOT: [MessageScalarWhereInput!]
+  id: StringFilter
+  from: StringFilter
+  conversationId: StringFilter
+  text: StringFilter
+  isDeleted: BoolFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+}
+
+input MessageUpdateManyMutationInput {
+  id: StringFieldUpdateOperationsInput
+  text: StringFieldUpdateOperationsInput
+  isDeleted: BoolFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input PaticipantsUpdateWithWhereUniqueWithoutUserInput {
+  where: PaticipantsWhereUniqueInput!
+  data: PaticipantsUpdateWithoutUserInput!
+}
+
+input PaticipantsUpdateManyWithWhereWithoutUserInput {
+  where: PaticipantsScalarWhereInput!
+  data: PaticipantsUpdateManyMutationInput!
+}
+
+input PaticipantsScalarWhereInput {
+  AND: [PaticipantsScalarWhereInput!]
+  OR: [PaticipantsScalarWhereInput!]
+  NOT: [PaticipantsScalarWhereInput!]
+  id: StringFilter
+  type: StringFilter
+  userId: StringFilter
+  conversationId: StringFilter
+  joinedDate: DateTimeFilter
+  leftDate: DateTimeFilter
+}
+
+input PaticipantsUpdateManyMutationInput {
+  id: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+  joinedDate: DateTimeFieldUpdateOperationsInput
+  leftDate: DateTimeFieldUpdateOperationsInput
+}
+
+input UserContactUpdateWithWhereUniqueWithoutOwnerContactInput {
+  where: UserContactWhereUniqueInput!
+  data: UserContactUpdateWithoutOwnerContactInput!
+}
+
+input UserContactUpdateManyWithWhereWithoutOwnerContactInput {
+  where: UserContactScalarWhereInput!
+  data: UserContactUpdateManyMutationInput!
+}
+
+input PaticipantsUpdateWithWhereUniqueWithoutConversationInput {
+  where: PaticipantsWhereUniqueInput!
+  data: PaticipantsUpdateWithoutConversationInput!
+}
+
+input PaticipantsUpdateManyWithWhereWithoutConversationInput {
+  where: PaticipantsScalarWhereInput!
+  data: PaticipantsUpdateManyMutationInput!
+}
+
+input MessageUpdateWithWhereUniqueWithoutFromUserInput {
+  where: MessageWhereUniqueInput!
+  data: MessageUpdateWithoutFromUserInput!
+}
+
+input MessageUpdateManyWithWhereWithoutFromUserInput {
+  where: MessageScalarWhereInput!
+  data: MessageUpdateManyMutationInput!
+}
+
+input MessageCreateInput {
+  id: String
+  fromUser: UserCreateNestedOneWithoutMessageInput!
+  conversation: ConversationCreateNestedOneWithoutMessageInput!
+  text: String!
+  isDeleted: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input MessageUpdateInput {
+  id: StringFieldUpdateOperationsInput
+  fromUser: UserUpdateOneRequiredWithoutMessageNestedInput
+  conversation: ConversationUpdateOneRequiredWithoutMessageNestedInput
+  text: StringFieldUpdateOperationsInput
+  isDeleted: BoolFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input PaticipantsCreateInput {
+  id: String
+  type: String
+  user: UserCreateNestedOneWithoutPaticipantsInput!
+  conversation: ConversationCreateNestedOneWithoutPaticipantsInput!
+  joinedDate: DateTime
+  leftDate: DateTime
+}
+
+input PaticipantsUpdateInput {
+  id: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+  user: UserUpdateOneRequiredWithoutPaticipantsNestedInput
+  conversation: ConversationUpdateOneRequiredWithoutPaticipantsNestedInput
+  joinedDate: DateTimeFieldUpdateOperationsInput
+  leftDate: DateTimeFieldUpdateOperationsInput
+}
+
+input UserCreateInput {
+  id: String
+  email: String!
+  username: String
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  photo: String
+  isAdmin: Boolean
+  active: Boolean
+  count: Int
+  Message: MessageCreateNestedManyWithoutFromUserInput
+  Paticipants: PaticipantsCreateNestedManyWithoutUserInput
+  ownerContact: UserContactCreateNestedManyWithoutOwnerContactInput
+  contactUser: UserContactCreateNestedManyWithoutContactUserInput
+  Conversation: ConversationCreateNestedManyWithoutCreatorInput
+}
+
+input UserUpdateManyMutationInput {
+  id: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  username: NullableStringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  phoneNumber: NullableStringFieldUpdateOperationsInput
+  photo: NullableStringFieldUpdateOperationsInput
+  isAdmin: BoolFieldUpdateOperationsInput
+  active: BoolFieldUpdateOperationsInput
+  count: IntFieldUpdateOperationsInput
+}
+
+input UserUpdateInput {
+  id: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  username: NullableStringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  phoneNumber: NullableStringFieldUpdateOperationsInput
+  photo: NullableStringFieldUpdateOperationsInput
+  isAdmin: BoolFieldUpdateOperationsInput
+  active: BoolFieldUpdateOperationsInput
+  count: IntFieldUpdateOperationsInput
+  Message: MessageUpdateManyWithoutFromUserNestedInput
+  Paticipants: PaticipantsUpdateManyWithoutUserNestedInput
+  ownerContact: UserContactUpdateManyWithoutOwnerContactNestedInput
+  contactUser: UserContactUpdateManyWithoutContactUserNestedInput
+  Conversation: ConversationUpdateManyWithoutCreatorNestedInput
+}
+
+input SignUpInput {
+  email: String!
+  password: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}

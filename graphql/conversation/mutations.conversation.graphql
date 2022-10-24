@@ -1,0 +1,15 @@
+mutation CreateOneConversation($data: ConversationCreateInput!) {
+    createOneConversation(data: $data) {
+        id
+        name
+        creatorId
+        secondaryName
+        creatorId
+        Paticipants {
+            id
+            type
+            userId
+            conversationId
+        }
+    }
+}

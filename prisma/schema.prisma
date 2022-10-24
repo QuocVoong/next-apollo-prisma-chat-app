@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator typegraphql {
+  provider           = "typegraphql-prisma"
+  output             = "../backend/generated/type-graphql"
+  emitTranspiledCode = true
+}
+
+//datasource db {
+//  provider = "postgresql"
+//  url      = env("DATABASE_URL")
+//}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id           String         @id @default(uuid())
+  email        String         @unique
+  username     String?
+  /// @TypeGraphQL.omit(output: true, input: true)
+  password     String
+  firstName    String?
+  lastName     String?
+  phoneNumber  String?
+  photo        String?
+  isAdmin      Boolean        @default(false)
+  active       Boolean        @default(true)
+  count        Int            @default(0)
+  Message      Message[]
+  Paticipants  Paticipants[]
+  ownerContact UserContact[]  @relation("ownerContact")
+  contactUser  UserContact[]  @relation("contact")
+  Conversation Conversation[]
+}
+
+model UserContact {
+  ownerContact   User    @relation("ownerContact", fields: [ownerContactId], references: [id])
+  ownerContactId String  @id @default(uuid())
+  contactUser    User    @relation("contact", fields: [contactId], references: [id])
+  contactId      String
+  email          String
+  username       String?
+  firstName      String?
+  lastName       String?
+  phoneNumber    String?
+  photo          String?
+
+  @@unique([ownerContactId, contactId])
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  fromUser       User         @relation(fields: [from], references: [id])
+  from           String
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  conversationId String
+  text           String
+  isDeleted      Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now())
+}
+
+model Conversation {
+  id            String        @id @default(uuid())
+  name          String?
+  secondaryName String?
+  creator       User          @relation(fields: [creatorId], references: [id])
+  creatorId     String
+  isDeleted     Boolean       @default(false)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @default(now())
+  Message       Message[]
+  Paticipants   Paticipants[]
+}
+
+model Paticipants {
+  id             String       @id @default(uuid())
+  type           String       @default("SINGLE")
+  user           User         @relation(fields: [userId], references: [id])
+  userId         String
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  conversationId String
+  joinedDate     DateTime     @default(now())
+  leftDate       DateTime     @default(now())
+}

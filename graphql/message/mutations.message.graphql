@@ -1,0 +1,20 @@
+mutation CreateOneMessage($data: MessageCreateInput!) {
+    createOneMessage(data: $data) {
+        id
+        from
+        conversationId
+        text
+        createdAt
+        updatedAt
+        fromUser {
+            id
+            email
+            username
+        }
+        conversation {
+            id
+            name
+            creatorId
+        }
+    }
+}

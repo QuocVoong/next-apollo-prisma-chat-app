@@ -1,0 +1,14 @@
+mutation CreateOnePaticipants($data: PaticipantsCreateInput!) {
+    createOnePaticipants(data: $data) {
+        id
+        type
+        userId
+        conversationId
+        user {
+            id
+            email
+            username
+            photo
+        }
+    }
+}
