@@ -30,3 +30,7 @@ query getMe {
         }
     }
 }
+
+query Logout {
+    logoutUser
+}

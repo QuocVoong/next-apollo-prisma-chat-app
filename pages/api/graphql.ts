@@ -10,8 +10,6 @@ import { Disposable } from 'graphql-ws';
 import { WebSocketServer } from 'ws';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import { buildSchema, Query, Resolver } from 'type-graphql';
-import { typeDefs } from '../../backend/type-defs';
-import { resolvers } from '../../backend/resolvers';
 import { context } from '../../backend/context';
 import {
   UserCrudResolver,

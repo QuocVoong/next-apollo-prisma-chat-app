@@ -1,5 +1,5 @@
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
-import { setCookie } from 'cookies-next';
+import { deleteCookie, setCookie } from 'cookies-next';
 import bcrypt from "bcrypt";
 import { AuthenticationError, ForbiddenError, UserInputError } from 'apollo-server-micro';
 import {
@@ -80,6 +80,8 @@ export default class UserResolver {
 
   @Query(() => Boolean)
   async logoutUser(@Ctx() ctx: Context) {
-    // return this.userService.logoutUser(ctx);
+    deleteCookie('token', { req: ctx.req, res: ctx.res });
+    deleteCookie('refresh-token', { req: ctx.req, res: ctx.res });
+    return true;
   }
 }

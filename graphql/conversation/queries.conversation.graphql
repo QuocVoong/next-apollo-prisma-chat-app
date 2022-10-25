@@ -1,5 +1,5 @@
-query Conversations($take: Int, $skip: Int, $where: ConversationWhereInput, $messageTake2: Int, $messageSkip2: Int, $orderBy: [MessageOrderByWithRelationInput!]) {
-    conversations(take: $take, skip: $skip, where: $where) {
+query Conversations($take: Int, $skip: Int, $where: ConversationWhereInput, $messageTake2: Int, $messageSkip2: Int, $orderBy: [ConversationOrderByWithRelationInput!], $messageOrderBy2: [MessageOrderByWithRelationInput!]) {
+    conversations(take: $take, skip: $skip, where: $where, orderBy: $orderBy) {
         id
         name
         secondaryName
@@ -15,7 +15,7 @@ query Conversations($take: Int, $skip: Int, $where: ConversationWhereInput, $mes
             }
             conversationId
         }
-        Message(take: $messageTake2, skip: $messageSkip2, orderBy: $orderBy) {
+        Message(take: $messageTake2, skip: $messageSkip2, orderBy: $messageOrderBy2) {
             id
             from
             conversationId

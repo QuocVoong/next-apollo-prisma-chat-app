@@ -11,15 +11,16 @@ generator typegraphql {
   emitTranspiledCode = true
 }
 
-//datasource db {
-//  provider = "postgresql"
-//  url      = env("DATABASE_URL")
-//}
-
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
+
+//datasource db {
+//  provider = "sqlite"
+//  url      = "file:./dev.db"
+//}
 
 model User {
   id           String         @id @default(uuid())

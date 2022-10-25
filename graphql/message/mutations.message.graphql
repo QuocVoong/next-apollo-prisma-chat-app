@@ -15,6 +15,17 @@ mutation CreateOneMessage($data: MessageCreateInput!) {
             id
             name
             creatorId
+            Paticipants {
+                id
+                type
+                userId
+                user {
+                    id
+                    username
+                    email
+                    photo
+                }
+            }
         }
     }
 }

@@ -24,6 +24,7 @@ import {
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { concat, findIndex } from "lodash";
 import { SmallCloseIcon } from "@chakra-ui/icons";
+import { addNewConversation } from "../chatService";
 
 const GroupSchema = Yup.object().shape({
   name: Yup.string()
@@ -75,6 +76,9 @@ const GroupConversationForm = (props) => {
         }
       },
       refetchQueries: ['Conversations'],
+      onCompleted: (result) => {
+        addNewConversation(result.createOneConversation);
+      }
     });
     onClose();
   }, [create, me, onClose])

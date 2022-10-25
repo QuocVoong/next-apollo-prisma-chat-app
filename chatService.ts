@@ -13,6 +13,10 @@ const connect = (token) => {
   return socket
 };
 
+const addNewConversation = (message) => {
+  socket && socket.emit('new_conversation', message);
+};
+
 const sendMessage = (message) => {
   socket && socket.emit('send_message', message);
 };
@@ -22,6 +26,7 @@ const disconnect = () => {
 };
 
 const sendTyping = (message) => {
+  console.log('sendTyping ');
   socket && socket.emit('typing', message);
 };
 
@@ -32,6 +37,7 @@ const sendStopTyping = (message) => {
 export {
   connect,
   disconnect,
+  addNewConversation,
   sendMessage,
   sendTyping,
   sendStopTyping,
