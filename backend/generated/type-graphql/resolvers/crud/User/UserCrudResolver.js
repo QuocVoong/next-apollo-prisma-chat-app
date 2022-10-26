@@ -5,6 +5,7 @@ const tslib_1 = require("tslib");
 const TypeGraphQL = tslib_1.__importStar(require("type-graphql"));
 const graphql_fields_1 = tslib_1.__importDefault(require("graphql-fields"));
 const AggregateUserArgs_1 = require("./args/AggregateUserArgs");
+const CreateManyUserArgs_1 = require("./args/CreateManyUserArgs");
 const CreateOneUserArgs_1 = require("./args/CreateOneUserArgs");
 const DeleteManyUserArgs_1 = require("./args/DeleteManyUserArgs");
 const DeleteOneUserArgs_1 = require("./args/DeleteOneUserArgs");
@@ -25,6 +26,13 @@ let UserCrudResolver = class UserCrudResolver {
         return (0, helpers_1.getPrismaFromContext)(ctx).user.aggregate({
             ...args,
             ...(0, helpers_1.transformFields)((0, graphql_fields_1.default)(info)),
+        });
+    }
+    async createManyUser(ctx, info, args) {
+        const { _count } = (0, helpers_1.transformFields)((0, graphql_fields_1.default)(info));
+        return (0, helpers_1.getPrismaFromContext)(ctx).user.createMany({
+            ...args,
+            ...(_count && (0, helpers_1.transformCountFieldIntoSelectRelationsCount)(_count)),
         });
     }
     async createOneUser(ctx, info, args) {
@@ -109,6 +117,17 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [Object, Object, AggregateUserArgs_1.AggregateUserArgs]),
     tslib_1.__metadata("design:returntype", Promise)
 ], UserCrudResolver.prototype, "aggregateUser", null);
+tslib_1.__decorate([
+    TypeGraphQL.Mutation(_returns => AffectedRowsOutput_1.AffectedRowsOutput, {
+        nullable: false
+    }),
+    tslib_1.__param(0, TypeGraphQL.Ctx()),
+    tslib_1.__param(1, TypeGraphQL.Info()),
+    tslib_1.__param(2, TypeGraphQL.Args()),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object, CreateManyUserArgs_1.CreateManyUserArgs]),
+    tslib_1.__metadata("design:returntype", Promise)
+], UserCrudResolver.prototype, "createManyUser", null);
 tslib_1.__decorate([
     TypeGraphQL.Mutation(_returns => User_1.User, {
         nullable: false

@@ -1,4 +1,5 @@
 export { AggregatePaticipantsArgs } from "./AggregatePaticipantsArgs";
+export { CreateManyPaticipantsArgs } from "./CreateManyPaticipantsArgs";
 export { CreateOnePaticipantsArgs } from "./CreateOnePaticipantsArgs";
 export { DeleteManyPaticipantsArgs } from "./DeleteManyPaticipantsArgs";
 export { DeleteOnePaticipantsArgs } from "./DeleteOnePaticipantsArgs";

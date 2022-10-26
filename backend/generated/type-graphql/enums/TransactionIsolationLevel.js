@@ -5,6 +5,9 @@ const tslib_1 = require("tslib");
 const TypeGraphQL = tslib_1.__importStar(require("type-graphql"));
 var TransactionIsolationLevel;
 (function (TransactionIsolationLevel) {
+    TransactionIsolationLevel["ReadUncommitted"] = "ReadUncommitted";
+    TransactionIsolationLevel["ReadCommitted"] = "ReadCommitted";
+    TransactionIsolationLevel["RepeatableRead"] = "RepeatableRead";
     TransactionIsolationLevel["Serializable"] = "Serializable";
 })(TransactionIsolationLevel = exports.TransactionIsolationLevel || (exports.TransactionIsolationLevel = {}));
 TypeGraphQL.registerEnumType(TransactionIsolationLevel, {

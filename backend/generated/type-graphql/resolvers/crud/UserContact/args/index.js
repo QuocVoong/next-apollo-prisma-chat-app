@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpsertOneUserContactArgs = exports.UpdateOneUserContactArgs = exports.UpdateManyUserContactArgs = exports.GroupByUserContactArgs = exports.FindUniqueUserContactArgs = exports.FindManyUserContactArgs = exports.FindFirstUserContactArgs = exports.DeleteOneUserContactArgs = exports.DeleteManyUserContactArgs = exports.CreateOneUserContactArgs = exports.AggregateUserContactArgs = void 0;
+exports.UpsertOneUserContactArgs = exports.UpdateOneUserContactArgs = exports.UpdateManyUserContactArgs = exports.GroupByUserContactArgs = exports.FindUniqueUserContactArgs = exports.FindManyUserContactArgs = exports.FindFirstUserContactArgs = exports.DeleteOneUserContactArgs = exports.DeleteManyUserContactArgs = exports.CreateOneUserContactArgs = exports.CreateManyUserContactArgs = exports.AggregateUserContactArgs = void 0;
 var AggregateUserContactArgs_1 = require("./AggregateUserContactArgs");
 Object.defineProperty(exports, "AggregateUserContactArgs", { enumerable: true, get: function () { return AggregateUserContactArgs_1.AggregateUserContactArgs; } });
+var CreateManyUserContactArgs_1 = require("./CreateManyUserContactArgs");
+Object.defineProperty(exports, "CreateManyUserContactArgs", { enumerable: true, get: function () { return CreateManyUserContactArgs_1.CreateManyUserContactArgs; } });
 var CreateOneUserContactArgs_1 = require("./CreateOneUserContactArgs");
 Object.defineProperty(exports, "CreateOneUserContactArgs", { enumerable: true, get: function () { return CreateOneUserContactArgs_1.CreateOneUserContactArgs; } });
 var DeleteManyUserContactArgs_1 = require("./DeleteManyUserContactArgs");

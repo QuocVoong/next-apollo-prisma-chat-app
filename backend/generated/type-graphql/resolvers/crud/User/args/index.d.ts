@@ -1,4 +1,5 @@
 export { AggregateUserArgs } from "./AggregateUserArgs";
+export { CreateManyUserArgs } from "./CreateManyUserArgs";
 export { CreateOneUserArgs } from "./CreateOneUserArgs";
 export { DeleteManyUserArgs } from "./DeleteManyUserArgs";
 export { DeleteOneUserArgs } from "./DeleteOneUserArgs";

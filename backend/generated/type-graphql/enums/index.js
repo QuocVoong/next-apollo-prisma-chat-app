@@ -1,12 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserScalarFieldEnum = exports.UserContactScalarFieldEnum = exports.TransactionIsolationLevel = exports.SortOrder = exports.PaticipantsScalarFieldEnum = exports.MessageScalarFieldEnum = exports.ConversationScalarFieldEnum = void 0;
+exports.UserScalarFieldEnum = exports.UserContactScalarFieldEnum = exports.TransactionIsolationLevel = exports.SortOrder = exports.QueryMode = exports.PaticipantsScalarFieldEnum = exports.MessageScalarFieldEnum = exports.ConversationScalarFieldEnum = void 0;
 var ConversationScalarFieldEnum_1 = require("./ConversationScalarFieldEnum");
 Object.defineProperty(exports, "ConversationScalarFieldEnum", { enumerable: true, get: function () { return ConversationScalarFieldEnum_1.ConversationScalarFieldEnum; } });
 var MessageScalarFieldEnum_1 = require("./MessageScalarFieldEnum");
 Object.defineProperty(exports, "MessageScalarFieldEnum", { enumerable: true, get: function () { return MessageScalarFieldEnum_1.MessageScalarFieldEnum; } });
 var PaticipantsScalarFieldEnum_1 = require("./PaticipantsScalarFieldEnum");
 Object.defineProperty(exports, "PaticipantsScalarFieldEnum", { enumerable: true, get: function () { return PaticipantsScalarFieldEnum_1.PaticipantsScalarFieldEnum; } });
+var QueryMode_1 = require("./QueryMode");
+Object.defineProperty(exports, "QueryMode", { enumerable: true, get: function () { return QueryMode_1.QueryMode; } });
 var SortOrder_1 = require("./SortOrder");
 Object.defineProperty(exports, "SortOrder", { enumerable: true, get: function () { return SortOrder_1.SortOrder; } });
 var TransactionIsolationLevel_1 = require("./TransactionIsolationLevel");

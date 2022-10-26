@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpsertOnePaticipantsArgs = exports.UpdateOnePaticipantsArgs = exports.UpdateManyPaticipantsArgs = exports.GroupByPaticipantsArgs = exports.FindUniquePaticipantsArgs = exports.FindManyPaticipantsArgs = exports.FindFirstPaticipantsArgs = exports.DeleteOnePaticipantsArgs = exports.DeleteManyPaticipantsArgs = exports.CreateOnePaticipantsArgs = exports.AggregatePaticipantsArgs = void 0;
+exports.UpsertOnePaticipantsArgs = exports.UpdateOnePaticipantsArgs = exports.UpdateManyPaticipantsArgs = exports.GroupByPaticipantsArgs = exports.FindUniquePaticipantsArgs = exports.FindManyPaticipantsArgs = exports.FindFirstPaticipantsArgs = exports.DeleteOnePaticipantsArgs = exports.DeleteManyPaticipantsArgs = exports.CreateOnePaticipantsArgs = exports.CreateManyPaticipantsArgs = exports.AggregatePaticipantsArgs = void 0;
 var AggregatePaticipantsArgs_1 = require("./AggregatePaticipantsArgs");
 Object.defineProperty(exports, "AggregatePaticipantsArgs", { enumerable: true, get: function () { return AggregatePaticipantsArgs_1.AggregatePaticipantsArgs; } });
+var CreateManyPaticipantsArgs_1 = require("./CreateManyPaticipantsArgs");
+Object.defineProperty(exports, "CreateManyPaticipantsArgs", { enumerable: true, get: function () { return CreateManyPaticipantsArgs_1.CreateManyPaticipantsArgs; } });
 var CreateOnePaticipantsArgs_1 = require("./CreateOnePaticipantsArgs");
 Object.defineProperty(exports, "CreateOnePaticipantsArgs", { enumerable: true, get: function () { return CreateOnePaticipantsArgs_1.CreateOnePaticipantsArgs; } });
 var DeleteManyPaticipantsArgs_1 = require("./DeleteManyPaticipantsArgs");

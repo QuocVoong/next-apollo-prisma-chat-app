@@ -1,3 +1,4 @@
+import { PaticipantsCreateManyUserInputEnvelope } from "../inputs/PaticipantsCreateManyUserInputEnvelope";
 import { PaticipantsCreateOrConnectWithoutUserInput } from "../inputs/PaticipantsCreateOrConnectWithoutUserInput";
 import { PaticipantsCreateWithoutUserInput } from "../inputs/PaticipantsCreateWithoutUserInput";
 import { PaticipantsScalarWhereInput } from "../inputs/PaticipantsScalarWhereInput";
@@ -9,6 +10,7 @@ export declare class PaticipantsUpdateManyWithoutUserNestedInput {
     create?: PaticipantsCreateWithoutUserInput[] | undefined;
     connectOrCreate?: PaticipantsCreateOrConnectWithoutUserInput[] | undefined;
     upsert?: PaticipantsUpsertWithWhereUniqueWithoutUserInput[] | undefined;
+    createMany?: PaticipantsCreateManyUserInputEnvelope | undefined;
     set?: PaticipantsWhereUniqueInput[] | undefined;
     disconnect?: PaticipantsWhereUniqueInput[] | undefined;
     delete?: PaticipantsWhereUniqueInput[] | undefined;

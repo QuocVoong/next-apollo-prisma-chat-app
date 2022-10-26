@@ -1,5 +1,6 @@
 import { GraphQLResolveInfo } from "graphql";
 import { AggregateMessageArgs } from "./args/AggregateMessageArgs";
+import { CreateManyMessageArgs } from "./args/CreateManyMessageArgs";
 import { CreateOneMessageArgs } from "./args/CreateOneMessageArgs";
 import { DeleteManyMessageArgs } from "./args/DeleteManyMessageArgs";
 import { DeleteOneMessageArgs } from "./args/DeleteOneMessageArgs";
@@ -16,6 +17,7 @@ import { AggregateMessage } from "../../outputs/AggregateMessage";
 import { MessageGroupBy } from "../../outputs/MessageGroupBy";
 export declare class MessageCrudResolver {
     aggregateMessage(ctx: any, info: GraphQLResolveInfo, args: AggregateMessageArgs): Promise<AggregateMessage>;
+    createManyMessage(ctx: any, info: GraphQLResolveInfo, args: CreateManyMessageArgs): Promise<AffectedRowsOutput>;
     createOneMessage(ctx: any, info: GraphQLResolveInfo, args: CreateOneMessageArgs): Promise<Message>;
     deleteManyMessage(ctx: any, info: GraphQLResolveInfo, args: DeleteManyMessageArgs): Promise<AffectedRowsOutput>;
     deleteOneMessage(ctx: any, info: GraphQLResolveInfo, args: DeleteOneMessageArgs): Promise<Message | null>;

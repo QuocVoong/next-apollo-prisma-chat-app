@@ -5,6 +5,7 @@ const tslib_1 = require("tslib");
 const TypeGraphQL = tslib_1.__importStar(require("type-graphql"));
 const graphql_fields_1 = tslib_1.__importDefault(require("graphql-fields"));
 const AggregateUserContactArgs_1 = require("./args/AggregateUserContactArgs");
+const CreateManyUserContactArgs_1 = require("./args/CreateManyUserContactArgs");
 const CreateOneUserContactArgs_1 = require("./args/CreateOneUserContactArgs");
 const DeleteManyUserContactArgs_1 = require("./args/DeleteManyUserContactArgs");
 const DeleteOneUserContactArgs_1 = require("./args/DeleteOneUserContactArgs");
@@ -25,6 +26,13 @@ let UserContactCrudResolver = class UserContactCrudResolver {
         return (0, helpers_1.getPrismaFromContext)(ctx).userContact.aggregate({
             ...args,
             ...(0, helpers_1.transformFields)((0, graphql_fields_1.default)(info)),
+        });
+    }
+    async createManyUserContact(ctx, info, args) {
+        const { _count } = (0, helpers_1.transformFields)((0, graphql_fields_1.default)(info));
+        return (0, helpers_1.getPrismaFromContext)(ctx).userContact.createMany({
+            ...args,
+            ...(_count && (0, helpers_1.transformCountFieldIntoSelectRelationsCount)(_count)),
         });
     }
     async createOneUserContact(ctx, info, args) {
@@ -109,6 +117,17 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [Object, Object, AggregateUserContactArgs_1.AggregateUserContactArgs]),
     tslib_1.__metadata("design:returntype", Promise)
 ], UserContactCrudResolver.prototype, "aggregateUserContact", null);
+tslib_1.__decorate([
+    TypeGraphQL.Mutation(_returns => AffectedRowsOutput_1.AffectedRowsOutput, {
+        nullable: false
+    }),
+    tslib_1.__param(0, TypeGraphQL.Ctx()),
+    tslib_1.__param(1, TypeGraphQL.Info()),
+    tslib_1.__param(2, TypeGraphQL.Args()),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object, CreateManyUserContactArgs_1.CreateManyUserContactArgs]),
+    tslib_1.__metadata("design:returntype", Promise)
+], UserContactCrudResolver.prototype, "createManyUserContact", null);
 tslib_1.__decorate([
     TypeGraphQL.Mutation(_returns => UserContact_1.UserContact, {
         nullable: false

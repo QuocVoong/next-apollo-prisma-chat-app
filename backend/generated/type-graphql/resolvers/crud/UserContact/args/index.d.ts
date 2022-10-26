@@ -1,4 +1,5 @@
 export { AggregateUserContactArgs } from "./AggregateUserContactArgs";
+export { CreateManyUserContactArgs } from "./CreateManyUserContactArgs";
 export { CreateOneUserContactArgs } from "./CreateOneUserContactArgs";
 export { DeleteManyUserContactArgs } from "./DeleteManyUserContactArgs";
 export { DeleteOneUserContactArgs } from "./DeleteOneUserContactArgs";

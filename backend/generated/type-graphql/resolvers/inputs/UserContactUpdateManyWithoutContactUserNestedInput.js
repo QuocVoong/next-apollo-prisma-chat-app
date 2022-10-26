@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserContactUpdateManyWithoutContactUserNestedInput = void 0;
 const tslib_1 = require("tslib");
 const TypeGraphQL = tslib_1.__importStar(require("type-graphql"));
+const UserContactCreateManyContactUserInputEnvelope_1 = require("../inputs/UserContactCreateManyContactUserInputEnvelope");
 const UserContactCreateOrConnectWithoutContactUserInput_1 = require("../inputs/UserContactCreateOrConnectWithoutContactUserInput");
 const UserContactCreateWithoutContactUserInput_1 = require("../inputs/UserContactCreateWithoutContactUserInput");
 const UserContactScalarWhereInput_1 = require("../inputs/UserContactScalarWhereInput");
@@ -30,6 +31,12 @@ tslib_1.__decorate([
     }),
     tslib_1.__metadata("design:type", Array)
 ], UserContactUpdateManyWithoutContactUserNestedInput.prototype, "upsert", void 0);
+tslib_1.__decorate([
+    TypeGraphQL.Field(_type => UserContactCreateManyContactUserInputEnvelope_1.UserContactCreateManyContactUserInputEnvelope, {
+        nullable: true
+    }),
+    tslib_1.__metadata("design:type", UserContactCreateManyContactUserInputEnvelope_1.UserContactCreateManyContactUserInputEnvelope)
+], UserContactUpdateManyWithoutContactUserNestedInput.prototype, "createMany", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => [UserContactWhereUniqueInput_1.UserContactWhereUniqueInput], {
         nullable: true

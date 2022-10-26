@@ -1,4 +1,5 @@
 export { AggregateMessageArgs } from "./AggregateMessageArgs";
+export { CreateManyMessageArgs } from "./CreateManyMessageArgs";
 export { CreateOneMessageArgs } from "./CreateOneMessageArgs";
 export { DeleteManyMessageArgs } from "./DeleteManyMessageArgs";
 export { DeleteOneMessageArgs } from "./DeleteOneMessageArgs";

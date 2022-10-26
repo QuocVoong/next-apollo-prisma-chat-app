@@ -1,5 +1,6 @@
 import { GraphQLResolveInfo } from "graphql";
 import { AggregatePaticipantsArgs } from "./args/AggregatePaticipantsArgs";
+import { CreateManyPaticipantsArgs } from "./args/CreateManyPaticipantsArgs";
 import { CreateOnePaticipantsArgs } from "./args/CreateOnePaticipantsArgs";
 import { DeleteManyPaticipantsArgs } from "./args/DeleteManyPaticipantsArgs";
 import { DeleteOnePaticipantsArgs } from "./args/DeleteOnePaticipantsArgs";
@@ -16,6 +17,7 @@ import { AggregatePaticipants } from "../../outputs/AggregatePaticipants";
 import { PaticipantsGroupBy } from "../../outputs/PaticipantsGroupBy";
 export declare class PaticipantsCrudResolver {
     aggregatePaticipants(ctx: any, info: GraphQLResolveInfo, args: AggregatePaticipantsArgs): Promise<AggregatePaticipants>;
+    createManyPaticipants(ctx: any, info: GraphQLResolveInfo, args: CreateManyPaticipantsArgs): Promise<AffectedRowsOutput>;
     createOnePaticipants(ctx: any, info: GraphQLResolveInfo, args: CreateOnePaticipantsArgs): Promise<Paticipants>;
     deleteManyPaticipants(ctx: any, info: GraphQLResolveInfo, args: DeleteManyPaticipantsArgs): Promise<AffectedRowsOutput>;
     deleteOnePaticipants(ctx: any, info: GraphQLResolveInfo, args: DeleteOnePaticipantsArgs): Promise<Paticipants | null>;

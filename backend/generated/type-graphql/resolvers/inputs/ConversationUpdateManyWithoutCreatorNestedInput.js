@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConversationUpdateManyWithoutCreatorNestedInput = void 0;
 const tslib_1 = require("tslib");
 const TypeGraphQL = tslib_1.__importStar(require("type-graphql"));
+const ConversationCreateManyCreatorInputEnvelope_1 = require("../inputs/ConversationCreateManyCreatorInputEnvelope");
 const ConversationCreateOrConnectWithoutCreatorInput_1 = require("../inputs/ConversationCreateOrConnectWithoutCreatorInput");
 const ConversationCreateWithoutCreatorInput_1 = require("../inputs/ConversationCreateWithoutCreatorInput");
 const ConversationScalarWhereInput_1 = require("../inputs/ConversationScalarWhereInput");
@@ -30,6 +31,12 @@ tslib_1.__decorate([
     }),
     tslib_1.__metadata("design:type", Array)
 ], ConversationUpdateManyWithoutCreatorNestedInput.prototype, "upsert", void 0);
+tslib_1.__decorate([
+    TypeGraphQL.Field(_type => ConversationCreateManyCreatorInputEnvelope_1.ConversationCreateManyCreatorInputEnvelope, {
+        nullable: true
+    }),
+    tslib_1.__metadata("design:type", ConversationCreateManyCreatorInputEnvelope_1.ConversationCreateManyCreatorInputEnvelope)
+], ConversationUpdateManyWithoutCreatorNestedInput.prototype, "createMany", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => [ConversationWhereUniqueInput_1.ConversationWhereUniqueInput], {
         nullable: true

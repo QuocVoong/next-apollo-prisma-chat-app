@@ -1,4 +1,5 @@
 export { AggregateConversationArgs } from "./AggregateConversationArgs";
+export { CreateManyConversationArgs } from "./CreateManyConversationArgs";
 export { CreateOneConversationArgs } from "./CreateOneConversationArgs";
 export { DeleteManyConversationArgs } from "./DeleteManyConversationArgs";
 export { DeleteOneConversationArgs } from "./DeleteOneConversationArgs";

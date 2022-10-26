@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpsertOneConversationArgs = exports.UpdateOneConversationArgs = exports.UpdateManyConversationArgs = exports.GroupByConversationArgs = exports.FindUniqueConversationArgs = exports.FindManyConversationArgs = exports.FindFirstConversationArgs = exports.DeleteOneConversationArgs = exports.DeleteManyConversationArgs = exports.CreateOneConversationArgs = exports.AggregateConversationArgs = void 0;
+exports.UpsertOneConversationArgs = exports.UpdateOneConversationArgs = exports.UpdateManyConversationArgs = exports.GroupByConversationArgs = exports.FindUniqueConversationArgs = exports.FindManyConversationArgs = exports.FindFirstConversationArgs = exports.DeleteOneConversationArgs = exports.DeleteManyConversationArgs = exports.CreateOneConversationArgs = exports.CreateManyConversationArgs = exports.AggregateConversationArgs = void 0;
 var AggregateConversationArgs_1 = require("./AggregateConversationArgs");
 Object.defineProperty(exports, "AggregateConversationArgs", { enumerable: true, get: function () { return AggregateConversationArgs_1.AggregateConversationArgs; } });
+var CreateManyConversationArgs_1 = require("./CreateManyConversationArgs");
+Object.defineProperty(exports, "CreateManyConversationArgs", { enumerable: true, get: function () { return CreateManyConversationArgs_1.CreateManyConversationArgs; } });
 var CreateOneConversationArgs_1 = require("./CreateOneConversationArgs");
 Object.defineProperty(exports, "CreateOneConversationArgs", { enumerable: true, get: function () { return CreateOneConversationArgs_1.CreateOneConversationArgs; } });
 var DeleteManyConversationArgs_1 = require("./DeleteManyConversationArgs");

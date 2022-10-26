@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaticipantsUpdateManyWithoutUserNestedInput = void 0;
 const tslib_1 = require("tslib");
 const TypeGraphQL = tslib_1.__importStar(require("type-graphql"));
+const PaticipantsCreateManyUserInputEnvelope_1 = require("../inputs/PaticipantsCreateManyUserInputEnvelope");
 const PaticipantsCreateOrConnectWithoutUserInput_1 = require("../inputs/PaticipantsCreateOrConnectWithoutUserInput");
 const PaticipantsCreateWithoutUserInput_1 = require("../inputs/PaticipantsCreateWithoutUserInput");
 const PaticipantsScalarWhereInput_1 = require("../inputs/PaticipantsScalarWhereInput");
@@ -30,6 +31,12 @@ tslib_1.__decorate([
     }),
     tslib_1.__metadata("design:type", Array)
 ], PaticipantsUpdateManyWithoutUserNestedInput.prototype, "upsert", void 0);
+tslib_1.__decorate([
+    TypeGraphQL.Field(_type => PaticipantsCreateManyUserInputEnvelope_1.PaticipantsCreateManyUserInputEnvelope, {
+        nullable: true
+    }),
+    tslib_1.__metadata("design:type", PaticipantsCreateManyUserInputEnvelope_1.PaticipantsCreateManyUserInputEnvelope)
+], PaticipantsUpdateManyWithoutUserNestedInput.prototype, "createMany", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => [PaticipantsWhereUniqueInput_1.PaticipantsWhereUniqueInput], {
         nullable: true

@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpsertOneMessageArgs = exports.UpdateOneMessageArgs = exports.UpdateManyMessageArgs = exports.GroupByMessageArgs = exports.FindUniqueMessageArgs = exports.FindManyMessageArgs = exports.FindFirstMessageArgs = exports.DeleteOneMessageArgs = exports.DeleteManyMessageArgs = exports.CreateOneMessageArgs = exports.AggregateMessageArgs = void 0;
+exports.UpsertOneMessageArgs = exports.UpdateOneMessageArgs = exports.UpdateManyMessageArgs = exports.GroupByMessageArgs = exports.FindUniqueMessageArgs = exports.FindManyMessageArgs = exports.FindFirstMessageArgs = exports.DeleteOneMessageArgs = exports.DeleteManyMessageArgs = exports.CreateOneMessageArgs = exports.CreateManyMessageArgs = exports.AggregateMessageArgs = void 0;
 var AggregateMessageArgs_1 = require("./AggregateMessageArgs");
 Object.defineProperty(exports, "AggregateMessageArgs", { enumerable: true, get: function () { return AggregateMessageArgs_1.AggregateMessageArgs; } });
+var CreateManyMessageArgs_1 = require("./CreateManyMessageArgs");
+Object.defineProperty(exports, "CreateManyMessageArgs", { enumerable: true, get: function () { return CreateManyMessageArgs_1.CreateManyMessageArgs; } });
 var CreateOneMessageArgs_1 = require("./CreateOneMessageArgs");
 Object.defineProperty(exports, "CreateOneMessageArgs", { enumerable: true, get: function () { return CreateOneMessageArgs_1.CreateOneMessageArgs; } });
 var DeleteManyMessageArgs_1 = require("./DeleteManyMessageArgs");

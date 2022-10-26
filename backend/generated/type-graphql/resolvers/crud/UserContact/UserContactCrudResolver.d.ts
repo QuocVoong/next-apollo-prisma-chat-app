@@ -1,5 +1,6 @@
 import { GraphQLResolveInfo } from "graphql";
 import { AggregateUserContactArgs } from "./args/AggregateUserContactArgs";
+import { CreateManyUserContactArgs } from "./args/CreateManyUserContactArgs";
 import { CreateOneUserContactArgs } from "./args/CreateOneUserContactArgs";
 import { DeleteManyUserContactArgs } from "./args/DeleteManyUserContactArgs";
 import { DeleteOneUserContactArgs } from "./args/DeleteOneUserContactArgs";
@@ -16,6 +17,7 @@ import { AggregateUserContact } from "../../outputs/AggregateUserContact";
 import { UserContactGroupBy } from "../../outputs/UserContactGroupBy";
 export declare class UserContactCrudResolver {
     aggregateUserContact(ctx: any, info: GraphQLResolveInfo, args: AggregateUserContactArgs): Promise<AggregateUserContact>;
+    createManyUserContact(ctx: any, info: GraphQLResolveInfo, args: CreateManyUserContactArgs): Promise<AffectedRowsOutput>;
     createOneUserContact(ctx: any, info: GraphQLResolveInfo, args: CreateOneUserContactArgs): Promise<UserContact>;
     deleteManyUserContact(ctx: any, info: GraphQLResolveInfo, args: DeleteManyUserContactArgs): Promise<AffectedRowsOutput>;
     deleteOneUserContact(ctx: any, info: GraphQLResolveInfo, args: DeleteOneUserContactArgs): Promise<UserContact | null>;

@@ -10,9 +10,11 @@
     "codegen-fe": "graphql-codegen --config codegen.ts",
     "codegen-be": "graphql-codegen --config backend/codegen.yml",
     "migrate": "npx prisma migrate dev",
+    "migrate-deploy": "npx prisma migrate deploy",
     "generate": "npx prisma generate",
     "studio": "npx prisma studio",
-    "seed": "ts-node --transpile-only ./prisma/seed.ts"
+    "seed": "ts-node --transpile-only ./prisma/seed.ts",
+    "heroku-postbuild": "yarn prisma migrate dev && yarn build:production"
   },
   "dependencies": {
     "@apollo/client": "^3.7.0",

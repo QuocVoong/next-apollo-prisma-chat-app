@@ -1,3 +1,4 @@
+import { UserContactCreateManyOwnerContactInputEnvelope } from "../inputs/UserContactCreateManyOwnerContactInputEnvelope";
 import { UserContactCreateOrConnectWithoutOwnerContactInput } from "../inputs/UserContactCreateOrConnectWithoutOwnerContactInput";
 import { UserContactCreateWithoutOwnerContactInput } from "../inputs/UserContactCreateWithoutOwnerContactInput";
 import { UserContactScalarWhereInput } from "../inputs/UserContactScalarWhereInput";
@@ -9,6 +10,7 @@ export declare class UserContactUpdateManyWithoutOwnerContactNestedInput {
     create?: UserContactCreateWithoutOwnerContactInput[] | undefined;
     connectOrCreate?: UserContactCreateOrConnectWithoutOwnerContactInput[] | undefined;
     upsert?: UserContactUpsertWithWhereUniqueWithoutOwnerContactInput[] | undefined;
+    createMany?: UserContactCreateManyOwnerContactInputEnvelope | undefined;
     set?: UserContactWhereUniqueInput[] | undefined;
     disconnect?: UserContactWhereUniqueInput[] | undefined;
     delete?: UserContactWhereUniqueInput[] | undefined;

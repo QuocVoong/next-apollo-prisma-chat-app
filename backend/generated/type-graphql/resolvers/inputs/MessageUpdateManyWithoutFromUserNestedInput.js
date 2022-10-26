@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessageUpdateManyWithoutFromUserNestedInput = void 0;
 const tslib_1 = require("tslib");
 const TypeGraphQL = tslib_1.__importStar(require("type-graphql"));
+const MessageCreateManyFromUserInputEnvelope_1 = require("../inputs/MessageCreateManyFromUserInputEnvelope");
 const MessageCreateOrConnectWithoutFromUserInput_1 = require("../inputs/MessageCreateOrConnectWithoutFromUserInput");
 const MessageCreateWithoutFromUserInput_1 = require("../inputs/MessageCreateWithoutFromUserInput");
 const MessageScalarWhereInput_1 = require("../inputs/MessageScalarWhereInput");
@@ -30,6 +31,12 @@ tslib_1.__decorate([
     }),
     tslib_1.__metadata("design:type", Array)
 ], MessageUpdateManyWithoutFromUserNestedInput.prototype, "upsert", void 0);
+tslib_1.__decorate([
+    TypeGraphQL.Field(_type => MessageCreateManyFromUserInputEnvelope_1.MessageCreateManyFromUserInputEnvelope, {
+        nullable: true
+    }),
+    tslib_1.__metadata("design:type", MessageCreateManyFromUserInputEnvelope_1.MessageCreateManyFromUserInputEnvelope)
+], MessageUpdateManyWithoutFromUserNestedInput.prototype, "createMany", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => [MessageWhereUniqueInput_1.MessageWhereUniqueInput], {
         nullable: true

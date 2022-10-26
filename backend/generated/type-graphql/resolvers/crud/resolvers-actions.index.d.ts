@@ -1,4 +1,5 @@
 export { AggregateConversationResolver } from "./Conversation/AggregateConversationResolver";
+export { CreateManyConversationResolver } from "./Conversation/CreateManyConversationResolver";
 export { CreateOneConversationResolver } from "./Conversation/CreateOneConversationResolver";
 export { DeleteManyConversationResolver } from "./Conversation/DeleteManyConversationResolver";
 export { DeleteOneConversationResolver } from "./Conversation/DeleteOneConversationResolver";
@@ -10,6 +11,7 @@ export { UpdateManyConversationResolver } from "./Conversation/UpdateManyConvers
 export { UpdateOneConversationResolver } from "./Conversation/UpdateOneConversationResolver";
 export { UpsertOneConversationResolver } from "./Conversation/UpsertOneConversationResolver";
 export { AggregateMessageResolver } from "./Message/AggregateMessageResolver";
+export { CreateManyMessageResolver } from "./Message/CreateManyMessageResolver";
 export { CreateOneMessageResolver } from "./Message/CreateOneMessageResolver";
 export { DeleteManyMessageResolver } from "./Message/DeleteManyMessageResolver";
 export { DeleteOneMessageResolver } from "./Message/DeleteOneMessageResolver";
@@ -21,6 +23,7 @@ export { UpdateManyMessageResolver } from "./Message/UpdateManyMessageResolver";
 export { UpdateOneMessageResolver } from "./Message/UpdateOneMessageResolver";
 export { UpsertOneMessageResolver } from "./Message/UpsertOneMessageResolver";
 export { AggregatePaticipantsResolver } from "./Paticipants/AggregatePaticipantsResolver";
+export { CreateManyPaticipantsResolver } from "./Paticipants/CreateManyPaticipantsResolver";
 export { CreateOnePaticipantsResolver } from "./Paticipants/CreateOnePaticipantsResolver";
 export { DeleteManyPaticipantsResolver } from "./Paticipants/DeleteManyPaticipantsResolver";
 export { DeleteOnePaticipantsResolver } from "./Paticipants/DeleteOnePaticipantsResolver";
@@ -32,6 +35,7 @@ export { UpdateManyPaticipantsResolver } from "./Paticipants/UpdateManyPaticipan
 export { UpdateOnePaticipantsResolver } from "./Paticipants/UpdateOnePaticipantsResolver";
 export { UpsertOnePaticipantsResolver } from "./Paticipants/UpsertOnePaticipantsResolver";
 export { AggregateUserResolver } from "./User/AggregateUserResolver";
+export { CreateManyUserResolver } from "./User/CreateManyUserResolver";
 export { CreateOneUserResolver } from "./User/CreateOneUserResolver";
 export { DeleteManyUserResolver } from "./User/DeleteManyUserResolver";
 export { DeleteOneUserResolver } from "./User/DeleteOneUserResolver";
@@ -43,6 +47,7 @@ export { UpdateManyUserResolver } from "./User/UpdateManyUserResolver";
 export { UpdateOneUserResolver } from "./User/UpdateOneUserResolver";
 export { UpsertOneUserResolver } from "./User/UpsertOneUserResolver";
 export { AggregateUserContactResolver } from "./UserContact/AggregateUserContactResolver";
+export { CreateManyUserContactResolver } from "./UserContact/CreateManyUserContactResolver";
 export { CreateOneUserContactResolver } from "./UserContact/CreateOneUserContactResolver";
 export { DeleteManyUserContactResolver } from "./UserContact/DeleteManyUserContactResolver";
 export { DeleteOneUserContactResolver } from "./UserContact/DeleteOneUserContactResolver";

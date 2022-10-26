@@ -1,3 +1,4 @@
+import { MessageCreateManyFromUserInputEnvelope } from "../inputs/MessageCreateManyFromUserInputEnvelope";
 import { MessageCreateOrConnectWithoutFromUserInput } from "../inputs/MessageCreateOrConnectWithoutFromUserInput";
 import { MessageCreateWithoutFromUserInput } from "../inputs/MessageCreateWithoutFromUserInput";
 import { MessageScalarWhereInput } from "../inputs/MessageScalarWhereInput";
@@ -9,6 +10,7 @@ export declare class MessageUpdateManyWithoutFromUserNestedInput {
     create?: MessageCreateWithoutFromUserInput[] | undefined;
     connectOrCreate?: MessageCreateOrConnectWithoutFromUserInput[] | undefined;
     upsert?: MessageUpsertWithWhereUniqueWithoutFromUserInput[] | undefined;
+    createMany?: MessageCreateManyFromUserInputEnvelope | undefined;
     set?: MessageWhereUniqueInput[] | undefined;
     disconnect?: MessageWhereUniqueInput[] | undefined;
     delete?: MessageWhereUniqueInput[] | undefined;

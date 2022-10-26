@@ -1,5 +1,6 @@
 import { GraphQLResolveInfo } from "graphql";
 import { AggregateConversationArgs } from "./args/AggregateConversationArgs";
+import { CreateManyConversationArgs } from "./args/CreateManyConversationArgs";
 import { CreateOneConversationArgs } from "./args/CreateOneConversationArgs";
 import { DeleteManyConversationArgs } from "./args/DeleteManyConversationArgs";
 import { DeleteOneConversationArgs } from "./args/DeleteOneConversationArgs";
@@ -16,6 +17,7 @@ import { AggregateConversation } from "../../outputs/AggregateConversation";
 import { ConversationGroupBy } from "../../outputs/ConversationGroupBy";
 export declare class ConversationCrudResolver {
     aggregateConversation(ctx: any, info: GraphQLResolveInfo, args: AggregateConversationArgs): Promise<AggregateConversation>;
+    createManyConversation(ctx: any, info: GraphQLResolveInfo, args: CreateManyConversationArgs): Promise<AffectedRowsOutput>;
     createOneConversation(ctx: any, info: GraphQLResolveInfo, args: CreateOneConversationArgs): Promise<Conversation>;
     deleteManyConversation(ctx: any, info: GraphQLResolveInfo, args: DeleteManyConversationArgs): Promise<AffectedRowsOutput>;
     deleteOneConversation(ctx: any, info: GraphQLResolveInfo, args: DeleteOneConversationArgs): Promise<Conversation | null>;

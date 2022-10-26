@@ -5,6 +5,7 @@ const tslib_1 = require("tslib");
 const TypeGraphQL = tslib_1.__importStar(require("type-graphql"));
 const graphql_fields_1 = tslib_1.__importDefault(require("graphql-fields"));
 const AggregateMessageArgs_1 = require("./args/AggregateMessageArgs");
+const CreateManyMessageArgs_1 = require("./args/CreateManyMessageArgs");
 const CreateOneMessageArgs_1 = require("./args/CreateOneMessageArgs");
 const DeleteManyMessageArgs_1 = require("./args/DeleteManyMessageArgs");
 const DeleteOneMessageArgs_1 = require("./args/DeleteOneMessageArgs");
@@ -25,6 +26,13 @@ let MessageCrudResolver = class MessageCrudResolver {
         return (0, helpers_1.getPrismaFromContext)(ctx).message.aggregate({
             ...args,
             ...(0, helpers_1.transformFields)((0, graphql_fields_1.default)(info)),
+        });
+    }
+    async createManyMessage(ctx, info, args) {
+        const { _count } = (0, helpers_1.transformFields)((0, graphql_fields_1.default)(info));
+        return (0, helpers_1.getPrismaFromContext)(ctx).message.createMany({
+            ...args,
+            ...(_count && (0, helpers_1.transformCountFieldIntoSelectRelationsCount)(_count)),
         });
     }
     async createOneMessage(ctx, info, args) {
@@ -109,6 +117,17 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [Object, Object, AggregateMessageArgs_1.AggregateMessageArgs]),
     tslib_1.__metadata("design:returntype", Promise)
 ], MessageCrudResolver.prototype, "aggregateMessage", null);
+tslib_1.__decorate([
+    TypeGraphQL.Mutation(_returns => AffectedRowsOutput_1.AffectedRowsOutput, {
+        nullable: false
+    }),
+    tslib_1.__param(0, TypeGraphQL.Ctx()),
+    tslib_1.__param(1, TypeGraphQL.Info()),
+    tslib_1.__param(2, TypeGraphQL.Args()),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object, CreateManyMessageArgs_1.CreateManyMessageArgs]),
+    tslib_1.__metadata("design:returntype", Promise)
+], MessageCrudResolver.prototype, "createManyMessage", null);
 tslib_1.__decorate([
     TypeGraphQL.Mutation(_returns => Message_1.Message, {
         nullable: false
