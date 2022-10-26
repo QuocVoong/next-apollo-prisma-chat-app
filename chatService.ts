@@ -1,8 +1,9 @@
 import SocketIOClient from "socket.io-client";
+import { WS_URI } from "./lib/apolloClient";
 
-const socket = SocketIOClient.connect(process.env.BASE_URL, {
+const socket = SocketIOClient.connect(WS_URI, {
   path: "/api/socketio",
-  autoConnect: false,
+  // autoConnect: false,
   auth: {},
 });
 
@@ -21,8 +22,8 @@ const sendMessage = (message) => {
   socket && socket.emit('send_message', message);
 };
 
-const disconnect = () => {
-  socket && socket.disconnect();
+const disconnect = (message) => {
+  socket && socket.disconnect(message);
 };
 
 const sendTyping = (message) => {

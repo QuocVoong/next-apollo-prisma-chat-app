@@ -142,10 +142,35 @@ export type ConversationCreateInput = {
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
+export type ConversationCreateManyCreatorInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['String']>;
+  isDeleted?: InputMaybe<Scalars['Boolean']>;
+  name?: InputMaybe<Scalars['String']>;
+  secondaryName?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type ConversationCreateManyCreatorInputEnvelope = {
+  data: Array<ConversationCreateManyCreatorInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type ConversationCreateManyInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  creatorId: Scalars['String'];
+  id?: InputMaybe<Scalars['String']>;
+  isDeleted?: InputMaybe<Scalars['Boolean']>;
+  name?: InputMaybe<Scalars['String']>;
+  secondaryName?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
 export type ConversationCreateNestedManyWithoutCreatorInput = {
   connect?: InputMaybe<Array<ConversationWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<ConversationCreateOrConnectWithoutCreatorInput>>;
   create?: InputMaybe<Array<ConversationCreateWithoutCreatorInput>>;
+  createMany?: InputMaybe<ConversationCreateManyCreatorInputEnvelope>;
 };
 
 export type ConversationCreateNestedOneWithoutMessageInput = {
@@ -371,6 +396,7 @@ export type ConversationUpdateManyWithoutCreatorNestedInput = {
   connect?: InputMaybe<Array<ConversationWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<ConversationCreateOrConnectWithoutCreatorInput>>;
   create?: InputMaybe<Array<ConversationCreateWithoutCreatorInput>>;
+  createMany?: InputMaybe<ConversationCreateManyCreatorInputEnvelope>;
   delete?: InputMaybe<Array<ConversationWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<ConversationScalarWhereInput>>;
   disconnect?: InputMaybe<Array<ConversationWhereUniqueInput>>;
@@ -590,16 +616,56 @@ export type MessageCreateInput = {
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
+export type MessageCreateManyConversationInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  from: Scalars['String'];
+  id?: InputMaybe<Scalars['String']>;
+  isDeleted?: InputMaybe<Scalars['Boolean']>;
+  text: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type MessageCreateManyConversationInputEnvelope = {
+  data: Array<MessageCreateManyConversationInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type MessageCreateManyFromUserInput = {
+  conversationId: Scalars['String'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['String']>;
+  isDeleted?: InputMaybe<Scalars['Boolean']>;
+  text: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type MessageCreateManyFromUserInputEnvelope = {
+  data: Array<MessageCreateManyFromUserInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type MessageCreateManyInput = {
+  conversationId: Scalars['String'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  from: Scalars['String'];
+  id?: InputMaybe<Scalars['String']>;
+  isDeleted?: InputMaybe<Scalars['Boolean']>;
+  text: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
 export type MessageCreateNestedManyWithoutConversationInput = {
   connect?: InputMaybe<Array<MessageWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<MessageCreateOrConnectWithoutConversationInput>>;
   create?: InputMaybe<Array<MessageCreateWithoutConversationInput>>;
+  createMany?: InputMaybe<MessageCreateManyConversationInputEnvelope>;
 };
 
 export type MessageCreateNestedManyWithoutFromUserInput = {
   connect?: InputMaybe<Array<MessageWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<MessageCreateOrConnectWithoutFromUserInput>>;
   create?: InputMaybe<Array<MessageCreateWithoutFromUserInput>>;
+  createMany?: InputMaybe<MessageCreateManyFromUserInputEnvelope>;
 };
 
 export type MessageCreateOrConnectWithoutConversationInput = {
@@ -789,6 +855,7 @@ export type MessageUpdateManyWithoutConversationNestedInput = {
   connect?: InputMaybe<Array<MessageWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<MessageCreateOrConnectWithoutConversationInput>>;
   create?: InputMaybe<Array<MessageCreateWithoutConversationInput>>;
+  createMany?: InputMaybe<MessageCreateManyConversationInputEnvelope>;
   delete?: InputMaybe<Array<MessageWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<MessageScalarWhereInput>>;
   disconnect?: InputMaybe<Array<MessageWhereUniqueInput>>;
@@ -802,6 +869,7 @@ export type MessageUpdateManyWithoutFromUserNestedInput = {
   connect?: InputMaybe<Array<MessageWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<MessageCreateOrConnectWithoutFromUserInput>>;
   create?: InputMaybe<Array<MessageCreateWithoutFromUserInput>>;
+  createMany?: InputMaybe<MessageCreateManyFromUserInputEnvelope>;
   delete?: InputMaybe<Array<MessageWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<MessageScalarWhereInput>>;
   disconnect?: InputMaybe<Array<MessageWhereUniqueInput>>;
@@ -872,6 +940,10 @@ export type MessageWhereUniqueInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createManyConversation: AffectedRowsOutput;
+  createManyMessage: AffectedRowsOutput;
+  createManyPaticipants: AffectedRowsOutput;
+  createManyUser: AffectedRowsOutput;
   createOneConversation: Conversation;
   createOneMessage: Message;
   createOnePaticipants: Paticipants;
@@ -898,6 +970,30 @@ export type Mutation = {
   upsertOneMessage: Message;
   upsertOnePaticipants: Paticipants;
   upsertOneUser: User;
+};
+
+
+export type MutationCreateManyConversationArgs = {
+  data: Array<ConversationCreateManyInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type MutationCreateManyMessageArgs = {
+  data: Array<MessageCreateManyInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type MutationCreateManyPaticipantsArgs = {
+  data: Array<PaticipantsCreateManyInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type MutationCreateManyUserArgs = {
+  data: Array<UserCreateManyInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
 
@@ -1240,16 +1336,53 @@ export type PaticipantsCreateInput = {
   user: UserCreateNestedOneWithoutPaticipantsInput;
 };
 
+export type PaticipantsCreateManyConversationInput = {
+  id?: InputMaybe<Scalars['String']>;
+  joinedDate?: InputMaybe<Scalars['DateTime']>;
+  leftDate?: InputMaybe<Scalars['DateTime']>;
+  type?: InputMaybe<Scalars['String']>;
+  userId: Scalars['String'];
+};
+
+export type PaticipantsCreateManyConversationInputEnvelope = {
+  data: Array<PaticipantsCreateManyConversationInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type PaticipantsCreateManyInput = {
+  conversationId: Scalars['String'];
+  id?: InputMaybe<Scalars['String']>;
+  joinedDate?: InputMaybe<Scalars['DateTime']>;
+  leftDate?: InputMaybe<Scalars['DateTime']>;
+  type?: InputMaybe<Scalars['String']>;
+  userId: Scalars['String'];
+};
+
+export type PaticipantsCreateManyUserInput = {
+  conversationId: Scalars['String'];
+  id?: InputMaybe<Scalars['String']>;
+  joinedDate?: InputMaybe<Scalars['DateTime']>;
+  leftDate?: InputMaybe<Scalars['DateTime']>;
+  type?: InputMaybe<Scalars['String']>;
+};
+
+export type PaticipantsCreateManyUserInputEnvelope = {
+  data: Array<PaticipantsCreateManyUserInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type PaticipantsCreateNestedManyWithoutConversationInput = {
   connect?: InputMaybe<Array<PaticipantsWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<PaticipantsCreateOrConnectWithoutConversationInput>>;
   create?: InputMaybe<Array<PaticipantsCreateWithoutConversationInput>>;
+  createMany?: InputMaybe<PaticipantsCreateManyConversationInputEnvelope>;
 };
 
 export type PaticipantsCreateNestedManyWithoutUserInput = {
   connect?: InputMaybe<Array<PaticipantsWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<PaticipantsCreateOrConnectWithoutUserInput>>;
   create?: InputMaybe<Array<PaticipantsCreateWithoutUserInput>>;
+  createMany?: InputMaybe<PaticipantsCreateManyUserInputEnvelope>;
 };
 
 export type PaticipantsCreateOrConnectWithoutConversationInput = {
@@ -1425,6 +1558,7 @@ export type PaticipantsUpdateManyWithoutConversationNestedInput = {
   connect?: InputMaybe<Array<PaticipantsWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<PaticipantsCreateOrConnectWithoutConversationInput>>;
   create?: InputMaybe<Array<PaticipantsCreateWithoutConversationInput>>;
+  createMany?: InputMaybe<PaticipantsCreateManyConversationInputEnvelope>;
   delete?: InputMaybe<Array<PaticipantsWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<PaticipantsScalarWhereInput>>;
   disconnect?: InputMaybe<Array<PaticipantsWhereUniqueInput>>;
@@ -1438,6 +1572,7 @@ export type PaticipantsUpdateManyWithoutUserNestedInput = {
   connect?: InputMaybe<Array<PaticipantsWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<PaticipantsCreateOrConnectWithoutUserInput>>;
   create?: InputMaybe<Array<PaticipantsCreateWithoutUserInput>>;
+  createMany?: InputMaybe<PaticipantsCreateManyUserInputEnvelope>;
   delete?: InputMaybe<Array<PaticipantsWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<PaticipantsScalarWhereInput>>;
   disconnect?: InputMaybe<Array<PaticipantsWhereUniqueInput>>;
@@ -1706,6 +1841,11 @@ export type QueryUsersArgs = {
   where?: InputMaybe<UserWhereInput>;
 };
 
+export enum QueryMode {
+  Default = 'default',
+  Insensitive = 'insensitive'
+}
+
 export type SignUpInput = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -1729,6 +1869,7 @@ export type StringFilter = {
   in?: InputMaybe<Array<Scalars['String']>>;
   lt?: InputMaybe<Scalars['String']>;
   lte?: InputMaybe<Scalars['String']>;
+  mode?: InputMaybe<QueryMode>;
   not?: InputMaybe<NestedStringFilter>;
   notIn?: InputMaybe<Array<Scalars['String']>>;
   startsWith?: InputMaybe<Scalars['String']>;
@@ -1743,6 +1884,7 @@ export type StringNullableFilter = {
   in?: InputMaybe<Array<Scalars['String']>>;
   lt?: InputMaybe<Scalars['String']>;
   lte?: InputMaybe<Scalars['String']>;
+  mode?: InputMaybe<QueryMode>;
   not?: InputMaybe<NestedStringNullableFilter>;
   notIn?: InputMaybe<Array<Scalars['String']>>;
   startsWith?: InputMaybe<Scalars['String']>;
@@ -1760,6 +1902,7 @@ export type StringNullableWithAggregatesFilter = {
   in?: InputMaybe<Array<Scalars['String']>>;
   lt?: InputMaybe<Scalars['String']>;
   lte?: InputMaybe<Scalars['String']>;
+  mode?: InputMaybe<QueryMode>;
   not?: InputMaybe<NestedStringNullableWithAggregatesFilter>;
   notIn?: InputMaybe<Array<Scalars['String']>>;
   startsWith?: InputMaybe<Scalars['String']>;
@@ -1777,6 +1920,7 @@ export type StringWithAggregatesFilter = {
   in?: InputMaybe<Array<Scalars['String']>>;
   lt?: InputMaybe<Scalars['String']>;
   lte?: InputMaybe<Scalars['String']>;
+  mode?: InputMaybe<QueryMode>;
   not?: InputMaybe<NestedStringWithAggregatesFilter>;
   notIn?: InputMaybe<Array<Scalars['String']>>;
   startsWith?: InputMaybe<Scalars['String']>;
@@ -1806,16 +1950,48 @@ export type UserAvgOrderByAggregateInput = {
   count?: InputMaybe<SortOrder>;
 };
 
+export type UserContactCreateManyContactUserInput = {
+  email: Scalars['String'];
+  firstName?: InputMaybe<Scalars['String']>;
+  lastName?: InputMaybe<Scalars['String']>;
+  ownerContactId?: InputMaybe<Scalars['String']>;
+  phoneNumber?: InputMaybe<Scalars['String']>;
+  photo?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
+export type UserContactCreateManyContactUserInputEnvelope = {
+  data: Array<UserContactCreateManyContactUserInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type UserContactCreateManyOwnerContactInput = {
+  contactId: Scalars['String'];
+  email: Scalars['String'];
+  firstName?: InputMaybe<Scalars['String']>;
+  lastName?: InputMaybe<Scalars['String']>;
+  phoneNumber?: InputMaybe<Scalars['String']>;
+  photo?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
+export type UserContactCreateManyOwnerContactInputEnvelope = {
+  data: Array<UserContactCreateManyOwnerContactInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type UserContactCreateNestedManyWithoutContactUserInput = {
   connect?: InputMaybe<Array<UserContactWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<UserContactCreateOrConnectWithoutContactUserInput>>;
   create?: InputMaybe<Array<UserContactCreateWithoutContactUserInput>>;
+  createMany?: InputMaybe<UserContactCreateManyContactUserInputEnvelope>;
 };
 
 export type UserContactCreateNestedManyWithoutOwnerContactInput = {
   connect?: InputMaybe<Array<UserContactWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<UserContactCreateOrConnectWithoutOwnerContactInput>>;
   create?: InputMaybe<Array<UserContactCreateWithoutOwnerContactInput>>;
+  createMany?: InputMaybe<UserContactCreateManyOwnerContactInputEnvelope>;
 };
 
 export type UserContactCreateOrConnectWithoutContactUserInput = {
@@ -1900,6 +2076,7 @@ export type UserContactUpdateManyWithoutContactUserNestedInput = {
   connect?: InputMaybe<Array<UserContactWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<UserContactCreateOrConnectWithoutContactUserInput>>;
   create?: InputMaybe<Array<UserContactCreateWithoutContactUserInput>>;
+  createMany?: InputMaybe<UserContactCreateManyContactUserInputEnvelope>;
   delete?: InputMaybe<Array<UserContactWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<UserContactScalarWhereInput>>;
   disconnect?: InputMaybe<Array<UserContactWhereUniqueInput>>;
@@ -1913,6 +2090,7 @@ export type UserContactUpdateManyWithoutOwnerContactNestedInput = {
   connect?: InputMaybe<Array<UserContactWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<UserContactCreateOrConnectWithoutOwnerContactInput>>;
   create?: InputMaybe<Array<UserContactCreateWithoutOwnerContactInput>>;
+  createMany?: InputMaybe<UserContactCreateManyOwnerContactInputEnvelope>;
   delete?: InputMaybe<Array<UserContactWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<UserContactScalarWhereInput>>;
   disconnect?: InputMaybe<Array<UserContactWhereUniqueInput>>;
@@ -2036,6 +2214,19 @@ export type UserCreateInput = {
   isAdmin?: InputMaybe<Scalars['Boolean']>;
   lastName?: InputMaybe<Scalars['String']>;
   ownerContact?: InputMaybe<UserContactCreateNestedManyWithoutOwnerContactInput>;
+  phoneNumber?: InputMaybe<Scalars['String']>;
+  photo?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
+export type UserCreateManyInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
+  count?: InputMaybe<Scalars['Int']>;
+  email: Scalars['String'];
+  firstName?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  isAdmin?: InputMaybe<Scalars['Boolean']>;
+  lastName?: InputMaybe<Scalars['String']>;
   phoneNumber?: InputMaybe<Scalars['String']>;
   photo?: InputMaybe<Scalars['String']>;
   username?: InputMaybe<Scalars['String']>;
@@ -2647,6 +2838,9 @@ export type ResolversTypes = {
   ConversationCountAggregate: ResolverTypeWrapper<ConversationCountAggregate>;
   ConversationCountOrderByAggregateInput: ConversationCountOrderByAggregateInput;
   ConversationCreateInput: ConversationCreateInput;
+  ConversationCreateManyCreatorInput: ConversationCreateManyCreatorInput;
+  ConversationCreateManyCreatorInputEnvelope: ConversationCreateManyCreatorInputEnvelope;
+  ConversationCreateManyInput: ConversationCreateManyInput;
   ConversationCreateNestedManyWithoutCreatorInput: ConversationCreateNestedManyWithoutCreatorInput;
   ConversationCreateNestedOneWithoutMessageInput: ConversationCreateNestedOneWithoutMessageInput;
   ConversationCreateNestedOneWithoutPaticipantsInput: ConversationCreateNestedOneWithoutPaticipantsInput;
@@ -2699,6 +2893,11 @@ export type ResolversTypes = {
   MessageCountAggregate: ResolverTypeWrapper<MessageCountAggregate>;
   MessageCountOrderByAggregateInput: MessageCountOrderByAggregateInput;
   MessageCreateInput: MessageCreateInput;
+  MessageCreateManyConversationInput: MessageCreateManyConversationInput;
+  MessageCreateManyConversationInputEnvelope: MessageCreateManyConversationInputEnvelope;
+  MessageCreateManyFromUserInput: MessageCreateManyFromUserInput;
+  MessageCreateManyFromUserInputEnvelope: MessageCreateManyFromUserInputEnvelope;
+  MessageCreateManyInput: MessageCreateManyInput;
   MessageCreateNestedManyWithoutConversationInput: MessageCreateNestedManyWithoutConversationInput;
   MessageCreateNestedManyWithoutFromUserInput: MessageCreateNestedManyWithoutFromUserInput;
   MessageCreateOrConnectWithoutConversationInput: MessageCreateOrConnectWithoutConversationInput;
@@ -2749,6 +2948,11 @@ export type ResolversTypes = {
   PaticipantsCountAggregate: ResolverTypeWrapper<PaticipantsCountAggregate>;
   PaticipantsCountOrderByAggregateInput: PaticipantsCountOrderByAggregateInput;
   PaticipantsCreateInput: PaticipantsCreateInput;
+  PaticipantsCreateManyConversationInput: PaticipantsCreateManyConversationInput;
+  PaticipantsCreateManyConversationInputEnvelope: PaticipantsCreateManyConversationInputEnvelope;
+  PaticipantsCreateManyInput: PaticipantsCreateManyInput;
+  PaticipantsCreateManyUserInput: PaticipantsCreateManyUserInput;
+  PaticipantsCreateManyUserInputEnvelope: PaticipantsCreateManyUserInputEnvelope;
   PaticipantsCreateNestedManyWithoutConversationInput: PaticipantsCreateNestedManyWithoutConversationInput;
   PaticipantsCreateNestedManyWithoutUserInput: PaticipantsCreateNestedManyWithoutUserInput;
   PaticipantsCreateOrConnectWithoutConversationInput: PaticipantsCreateOrConnectWithoutConversationInput;
@@ -2782,6 +2986,7 @@ export type ResolversTypes = {
   PaticipantsWhereInput: PaticipantsWhereInput;
   PaticipantsWhereUniqueInput: PaticipantsWhereUniqueInput;
   Query: ResolverTypeWrapper<{}>;
+  QueryMode: QueryMode;
   SignUpInput: SignUpInput;
   SortOrder: SortOrder;
   String: ResolverTypeWrapper<Scalars['String']>;
@@ -2793,6 +2998,10 @@ export type ResolversTypes = {
   User: ResolverTypeWrapper<User>;
   UserAvgAggregate: ResolverTypeWrapper<UserAvgAggregate>;
   UserAvgOrderByAggregateInput: UserAvgOrderByAggregateInput;
+  UserContactCreateManyContactUserInput: UserContactCreateManyContactUserInput;
+  UserContactCreateManyContactUserInputEnvelope: UserContactCreateManyContactUserInputEnvelope;
+  UserContactCreateManyOwnerContactInput: UserContactCreateManyOwnerContactInput;
+  UserContactCreateManyOwnerContactInputEnvelope: UserContactCreateManyOwnerContactInputEnvelope;
   UserContactCreateNestedManyWithoutContactUserInput: UserContactCreateNestedManyWithoutContactUserInput;
   UserContactCreateNestedManyWithoutOwnerContactInput: UserContactCreateNestedManyWithoutOwnerContactInput;
   UserContactCreateOrConnectWithoutContactUserInput: UserContactCreateOrConnectWithoutContactUserInput;
@@ -2820,6 +3029,7 @@ export type ResolversTypes = {
   UserCountAggregate: ResolverTypeWrapper<UserCountAggregate>;
   UserCountOrderByAggregateInput: UserCountOrderByAggregateInput;
   UserCreateInput: UserCreateInput;
+  UserCreateManyInput: UserCreateManyInput;
   UserCreateNestedOneWithoutContactUserInput: UserCreateNestedOneWithoutContactUserInput;
   UserCreateNestedOneWithoutConversationInput: UserCreateNestedOneWithoutConversationInput;
   UserCreateNestedOneWithoutMessageInput: UserCreateNestedOneWithoutMessageInput;
@@ -2886,6 +3096,9 @@ export type ResolversParentTypes = {
   ConversationCountAggregate: ConversationCountAggregate;
   ConversationCountOrderByAggregateInput: ConversationCountOrderByAggregateInput;
   ConversationCreateInput: ConversationCreateInput;
+  ConversationCreateManyCreatorInput: ConversationCreateManyCreatorInput;
+  ConversationCreateManyCreatorInputEnvelope: ConversationCreateManyCreatorInputEnvelope;
+  ConversationCreateManyInput: ConversationCreateManyInput;
   ConversationCreateNestedManyWithoutCreatorInput: ConversationCreateNestedManyWithoutCreatorInput;
   ConversationCreateNestedOneWithoutMessageInput: ConversationCreateNestedOneWithoutMessageInput;
   ConversationCreateNestedOneWithoutPaticipantsInput: ConversationCreateNestedOneWithoutPaticipantsInput;
@@ -2937,6 +3150,11 @@ export type ResolversParentTypes = {
   MessageCountAggregate: MessageCountAggregate;
   MessageCountOrderByAggregateInput: MessageCountOrderByAggregateInput;
   MessageCreateInput: MessageCreateInput;
+  MessageCreateManyConversationInput: MessageCreateManyConversationInput;
+  MessageCreateManyConversationInputEnvelope: MessageCreateManyConversationInputEnvelope;
+  MessageCreateManyFromUserInput: MessageCreateManyFromUserInput;
+  MessageCreateManyFromUserInputEnvelope: MessageCreateManyFromUserInputEnvelope;
+  MessageCreateManyInput: MessageCreateManyInput;
   MessageCreateNestedManyWithoutConversationInput: MessageCreateNestedManyWithoutConversationInput;
   MessageCreateNestedManyWithoutFromUserInput: MessageCreateNestedManyWithoutFromUserInput;
   MessageCreateOrConnectWithoutConversationInput: MessageCreateOrConnectWithoutConversationInput;
@@ -2986,6 +3204,11 @@ export type ResolversParentTypes = {
   PaticipantsCountAggregate: PaticipantsCountAggregate;
   PaticipantsCountOrderByAggregateInput: PaticipantsCountOrderByAggregateInput;
   PaticipantsCreateInput: PaticipantsCreateInput;
+  PaticipantsCreateManyConversationInput: PaticipantsCreateManyConversationInput;
+  PaticipantsCreateManyConversationInputEnvelope: PaticipantsCreateManyConversationInputEnvelope;
+  PaticipantsCreateManyInput: PaticipantsCreateManyInput;
+  PaticipantsCreateManyUserInput: PaticipantsCreateManyUserInput;
+  PaticipantsCreateManyUserInputEnvelope: PaticipantsCreateManyUserInputEnvelope;
   PaticipantsCreateNestedManyWithoutConversationInput: PaticipantsCreateNestedManyWithoutConversationInput;
   PaticipantsCreateNestedManyWithoutUserInput: PaticipantsCreateNestedManyWithoutUserInput;
   PaticipantsCreateOrConnectWithoutConversationInput: PaticipantsCreateOrConnectWithoutConversationInput;
@@ -3028,6 +3251,10 @@ export type ResolversParentTypes = {
   User: User;
   UserAvgAggregate: UserAvgAggregate;
   UserAvgOrderByAggregateInput: UserAvgOrderByAggregateInput;
+  UserContactCreateManyContactUserInput: UserContactCreateManyContactUserInput;
+  UserContactCreateManyContactUserInputEnvelope: UserContactCreateManyContactUserInputEnvelope;
+  UserContactCreateManyOwnerContactInput: UserContactCreateManyOwnerContactInput;
+  UserContactCreateManyOwnerContactInputEnvelope: UserContactCreateManyOwnerContactInputEnvelope;
   UserContactCreateNestedManyWithoutContactUserInput: UserContactCreateNestedManyWithoutContactUserInput;
   UserContactCreateNestedManyWithoutOwnerContactInput: UserContactCreateNestedManyWithoutOwnerContactInput;
   UserContactCreateOrConnectWithoutContactUserInput: UserContactCreateOrConnectWithoutContactUserInput;
@@ -3055,6 +3282,7 @@ export type ResolversParentTypes = {
   UserCountAggregate: UserCountAggregate;
   UserCountOrderByAggregateInput: UserCountOrderByAggregateInput;
   UserCreateInput: UserCreateInput;
+  UserCreateManyInput: UserCreateManyInput;
   UserCreateNestedOneWithoutContactUserInput: UserCreateNestedOneWithoutContactUserInput;
   UserCreateNestedOneWithoutConversationInput: UserCreateNestedOneWithoutConversationInput;
   UserCreateNestedOneWithoutMessageInput: UserCreateNestedOneWithoutMessageInput;
@@ -3280,6 +3508,10 @@ export type MessageMinAggregateResolvers<ContextType = any, ParentType extends R
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createManyConversation?: Resolver<ResolversTypes['AffectedRowsOutput'], ParentType, ContextType, RequireFields<MutationCreateManyConversationArgs, 'data'>>;
+  createManyMessage?: Resolver<ResolversTypes['AffectedRowsOutput'], ParentType, ContextType, RequireFields<MutationCreateManyMessageArgs, 'data'>>;
+  createManyPaticipants?: Resolver<ResolversTypes['AffectedRowsOutput'], ParentType, ContextType, RequireFields<MutationCreateManyPaticipantsArgs, 'data'>>;
+  createManyUser?: Resolver<ResolversTypes['AffectedRowsOutput'], ParentType, ContextType, RequireFields<MutationCreateManyUserArgs, 'data'>>;
   createOneConversation?: Resolver<ResolversTypes['Conversation'], ParentType, ContextType, RequireFields<MutationCreateOneConversationArgs, 'data'>>;
   createOneMessage?: Resolver<ResolversTypes['Message'], ParentType, ContextType, RequireFields<MutationCreateOneMessageArgs, 'data'>>;
   createOnePaticipants?: Resolver<ResolversTypes['Paticipants'], ParentType, ContextType, RequireFields<MutationCreateOnePaticipantsArgs, 'data'>>;

@@ -2,8 +2,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Server as NetServer, Socket } from "net";
 import { Server as ServerIO } from "socket.io";
 import { verify } from "jsonwebtoken";
-import { TOKEN_SECRET } from "../../backend/constants";
-import { context } from "../../backend/context";
+// import { TOKEN_SECRET } from "../../backend/constants";
+import { context } from "backend/context";
 import moment from "moment";
 
 type NextApiResponseServerIO = NextApiResponse & {

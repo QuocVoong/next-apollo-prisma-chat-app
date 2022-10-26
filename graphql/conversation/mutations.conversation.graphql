@@ -13,3 +13,13 @@ mutation CreateOneConversation($data: ConversationCreateInput!) {
         }
     }
 }
+
+mutation UpdateOneConversation($data: ConversationUpdateInput!, $where: ConversationWhereUniqueInput!) {
+    updateOneConversation(data: $data, where: $where) {
+        id
+        name
+        updatedAt
+        createdAt
+        secondaryName
+    }
+}

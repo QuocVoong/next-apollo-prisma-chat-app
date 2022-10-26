@@ -26,12 +26,14 @@ import {
   sendStopTyping,
   sendTyping
 } from "../chatService";
-import { isAuth } from "../lib/isAuth";
+import { useAuth } from "../hooks/useAuth";
 import {
   useConversationLazyQuery,
   useConversationsQuery,
   useCreateOneMessageMutation, useLogoutLazyQuery,
-  useMessagesQuery, useUsersLazyQuery,
+  useMessagesQuery,
+  useUpdateOneConversationMutation,
+  useUsersLazyQuery,
   useUsersQuery
 } from "../graphql/generated/schema";
 import MessageFeed from "../components/MessageFeed";
@@ -53,7 +55,7 @@ const TYPING_STATES = {
 const Chat: React.FC = () => {
   const router = useRouter();
   const socket = useRef();
-  const { me, token } = isAuth();
+  const { me, token } = useAuth();
   const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedConversation, setSelectedConversation] = useState();
@@ -116,6 +118,8 @@ const Chat: React.FC = () => {
     }
   });
 
+  const [updateConversation] = useUpdateOneConversationMutation({})
+
   const { data: messagesData, refetch: refreshMessages, fetchMore: fetchMoreMessages } = useMessagesQuery({
     variables: {
       where: {
@@ -142,7 +146,7 @@ const Chat: React.FC = () => {
 
     return () => {
       console.log('disconnect ');
-      disconnect();
+      disconnect(me);
     }
   }, [token])
 
@@ -347,12 +351,25 @@ const Chat: React.FC = () => {
         },
         onCompleted: (result) => {
           setMessages([...messages, result?.createOneMessage]);
+          updateConversation({
+            variables: {
+              "where": {
+                "id": result.createOneMessage.conversationId,
+              },
+              "data": {
+                "updatedAt": {
+                  "set": moment().toISOString()
+                }
+              }
+            }
+          });
           if (!selectedConversation?.id) {
+            setSelectedConversation(result.createOneMessage?.conversation);
             addNewConversation(result.createOneMessage?.conversation);
           }
           setTimeout(() => {
             sendSocketMessage(result.createOneMessage);
-          }, 200);
+          }, 100);
         },
         onError: () => {
           //TODO retry and sync after reconnect
@@ -398,6 +415,7 @@ const Chat: React.FC = () => {
     setState(prev => ({ ...prev, isTyping: TYPING_STATES.IS_TYPING, value }));
   }, [])
 
+  console.log('selectedConversation ', selectedConversation);
   return (
     <>
       <Flex w="100%" justify="end" px={4} py={1}>
@@ -453,7 +471,7 @@ const Chat: React.FC = () => {
                         "where": {
                           "AND": [
                             {
-                              "email": {
+                              "username": {
                                 "contains": value || '$'
                               }
                             },
@@ -486,6 +504,7 @@ const Chat: React.FC = () => {
                 <Box style={{ maxHeight: '250px' }}>
                   {users?.map(user => (
                     <Flex
+                      key={user.id}
                       mb={1}
                       p={2}
                       cursor="pointer"

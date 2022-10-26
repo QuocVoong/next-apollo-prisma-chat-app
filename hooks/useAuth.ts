@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { getCookie } from 'cookies-next';
 import jwt_decode from "jwt-decode";
 
-export const isAuth = () => {
+export const useAuth = () => {
   let decoded;
   const token = getCookie('token');
   if (token) {

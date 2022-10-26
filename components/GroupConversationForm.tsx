@@ -110,7 +110,7 @@ const GroupConversationForm = (props) => {
                                   "where": {
                                     "AND": [
                                       {
-                                        "email": {
+                                        "username": {
                                           "contains": value || '$'
                                         }
                                       },
@@ -139,6 +139,7 @@ const GroupConversationForm = (props) => {
                             <Box style={{ maxHeight: '200px' }}>
                               {users?.map(user => (
                                 <Flex
+                                  key={user.id}
                                   mb={1}
                                   p={4}
                                   cursor="pointer"
@@ -195,7 +196,7 @@ const GroupConversationForm = (props) => {
                             <Text fontSize={18} fontWeight="bold">Members</Text>
                             <Flex>
                               {values.members.map(member => (
-                                <Box mr={2}>
+                                <Box key={member.id} mr={2}>
                                   <WrapItem>
                                     <Avatar
                                       name={member.username || member.email}

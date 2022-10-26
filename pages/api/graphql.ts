@@ -10,7 +10,7 @@ import { Disposable } from 'graphql-ws';
 import { WebSocketServer } from 'ws';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import { buildSchema, Query, Resolver } from 'type-graphql';
-import { context } from '../../backend/context';
+import { context } from 'backend/context';
 import {
   UserCrudResolver,
   MessageCrudResolver,
@@ -20,10 +20,9 @@ import {
   ConversationRelationsResolver,
   PaticipantsRelationsResolver,
   UserContactRelationsResolver,
-} from "../../backend/generated/type-graphql";
-import UserResolver from "../../backend/resolvers/user.resolver";
-import { MessageResolver } from "../../backend/resolvers/message.resolver";
-import { TOKEN_SECRET } from '../../backend/constants';
+} from "backend/generated/type-graphql";
+import UserResolver from "backend/resolvers/user.resolver";
+import { TOKEN_SECRET } from 'backend/constants';
 import { verify } from 'jsonwebtoken';
 import { setCookie, deleteCookie } from 'cookies-next';
 
@@ -40,7 +39,6 @@ const schema = await buildSchema({
     PaticipantsRelationsResolver,
     UserContactRelationsResolver,
     UserResolver,
-    // MessageResolver,
   ],
   dateScalarMode: 'isoDate',
   validate: false,

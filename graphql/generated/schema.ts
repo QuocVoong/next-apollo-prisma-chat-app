@@ -2763,6 +2763,14 @@ export type CreateOneConversationMutationVariables = Exact<{
 
 export type CreateOneConversationMutation = { __typename?: 'Mutation', createOneConversation: { __typename?: 'Conversation', id: string, name?: string | null, creatorId: string, secondaryName?: string | null, Paticipants: Array<{ __typename?: 'Paticipants', id: string, type: string, userId: string, conversationId: string }> } };
 
+export type UpdateOneConversationMutationVariables = Exact<{
+  data: ConversationUpdateInput;
+  where: ConversationWhereUniqueInput;
+}>;
+
+
+export type UpdateOneConversationMutation = { __typename?: 'Mutation', updateOneConversation?: { __typename?: 'Conversation', id: string, name?: string | null, updatedAt: any, createdAt: any, secondaryName?: string | null } | null };
+
 export type ConversationsQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
@@ -2887,6 +2895,44 @@ export function useCreateOneConversationMutation(baseOptions?: Apollo.MutationHo
 export type CreateOneConversationMutationHookResult = ReturnType<typeof useCreateOneConversationMutation>;
 export type CreateOneConversationMutationResult = Apollo.MutationResult<CreateOneConversationMutation>;
 export type CreateOneConversationMutationOptions = Apollo.BaseMutationOptions<CreateOneConversationMutation, CreateOneConversationMutationVariables>;
+export const UpdateOneConversationDocument = gql`
+    mutation UpdateOneConversation($data: ConversationUpdateInput!, $where: ConversationWhereUniqueInput!) {
+  updateOneConversation(data: $data, where: $where) {
+    id
+    name
+    updatedAt
+    createdAt
+    secondaryName
+  }
+}
+    `;
+export type UpdateOneConversationMutationFn = Apollo.MutationFunction<UpdateOneConversationMutation, UpdateOneConversationMutationVariables>;
+
+/**
+ * __useUpdateOneConversationMutation__
+ *
+ * To run a mutation, you first call `useUpdateOneConversationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateOneConversationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateOneConversationMutation, { data, loading, error }] = useUpdateOneConversationMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useUpdateOneConversationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateOneConversationMutation, UpdateOneConversationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateOneConversationMutation, UpdateOneConversationMutationVariables>(UpdateOneConversationDocument, options);
+      }
+export type UpdateOneConversationMutationHookResult = ReturnType<typeof useUpdateOneConversationMutation>;
+export type UpdateOneConversationMutationResult = Apollo.MutationResult<UpdateOneConversationMutation>;
+export type UpdateOneConversationMutationOptions = Apollo.BaseMutationOptions<UpdateOneConversationMutation, UpdateOneConversationMutationVariables>;
 export const ConversationsDocument = gql`
     query Conversations($take: Int, $skip: Int, $where: ConversationWhereInput, $messageTake2: Int, $messageSkip2: Int, $orderBy: [ConversationOrderByWithRelationInput!], $messageOrderBy2: [MessageOrderByWithRelationInput!]) {
   conversations(take: $take, skip: $skip, where: $where, orderBy: $orderBy) {

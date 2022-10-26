@@ -14,7 +14,7 @@ const CustomScrollbar = React.forwardRef(
         }
         ref.current = customViewport;
       }
-    }, [ref]);
+    }, [ref, props]);
 
     return (
       <OverlayScrollbarsComponent
