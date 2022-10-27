@@ -64,14 +64,17 @@ export default async (req: NextApiRequest, res: NextApiResponseServerIO) => {
         })
       });
       socket.on('typing', (msg) => {
-        socket.to(conversations[msg.conversationId]).emit('typing', msg);
+        msg?.conversation.Paticipants?.forEach(p => {
+          socket.to(p.user?.id).emit('typing', msg)
+        });
       });
       socket.on('stop_typing', (msg) => {
-        socket.to(conversations[msg.conversationId]).emit('stop_typing', msg);
+        msg?.conversation.Paticipants?.forEach(p => {
+          socket.to(p.user?.id).emit('stop_typing', msg)
+        });
       });
-      io.on('disconnecting', (reason) => {
-        console.log('disconnecting ');
-        console.log('reason ', reason);
+      io.on('disconnect', (msg) => {
+        console.log('disconnect ');
       })
     });
     res.socket.server.io = io;

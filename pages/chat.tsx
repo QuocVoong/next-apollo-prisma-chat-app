@@ -168,6 +168,7 @@ const Chat: React.FC = () => {
             p={3}
             bg='blue.500'
             overflowX="hidden"
+            cursor="pointer"
             onClick={() => {
               refetchConversations({});
               toast.closeAll()
@@ -182,7 +183,16 @@ const Chat: React.FC = () => {
     socket?.current?.on('new_message', (newMessage) => {
       if (newMessage.conversationId === selectedConversation?.id) {
         setMessages(msgs => {
-          return msgs.concat(newMessage);
+          const nextMessages = [...msgs];
+          const lastMessage = msgs[msgs.length - 1];
+          if (lastMessage?.isTyping) {
+            nextMessages.pop();
+          }
+          nextMessages.push(newMessage);
+          if (lastMessage?.isTyping) {
+            nextMessages.push(lastMessage);
+          }
+          return nextMessages;
         })
       } else {
         // if (!conversationsData?.conversations?.find(con => con.id === newMessage.conversationId)) {
@@ -200,6 +210,7 @@ const Chat: React.FC = () => {
               p={3}
               bg='blue.500'
               overflowX="hidden"
+              cursor="pointer"
               onClick={() => {
                 setSelectedConversation(newMessage?.conversation);
                 refreshMessages({
@@ -221,39 +232,61 @@ const Chat: React.FC = () => {
     })
 
     socket?.current?.on('typing', (typingMsg) => {
-      if (typingMsg.conversationId === selectedConversation?.id) {
-        // setTypingConversation((prev) => {
-        //   console.log('prev ', prev);
-        //   if (!isEmpty(prev[typingMsg.conversationId])) {
-        //     const newTyping = prev[typingMsg.conversationId].find(u => u.id === typingMsg.user?.id);
-        //     if (newTyping) {
-        //       prev[typingMsg.conversationId] = [...prev[typingMsg.conversationId], typingMsg.user]
-        //       setTypingConversation({ ...prev });
-        //     }
-        //   } else if (prev[typingMsg.conversationId]) {
-        //     prev[typingMsg.conversationId] = []
-        //     setTypingConversation({...prev});
-        //   }
-        // });
+      if (typingMsg.conversation.id === selectedConversation?.id) {
+        setMessages(msgs => {
+          const nextMsgs = [...msgs];
+          const lastMsg = msgs[msgs.length - 1];
+          if (!lastMsg.isTyping) {
+            nextMsgs.push({ isTyping: true, users: [typingMsg.user] })
+          } else {
+            const isExist = nextMsgs[nextMsgs.length - 1]?.users?.some(usr => usr.id === typingMsg.user.id);
+            if (!isExist) {
+              let users = nextMsgs[nextMsgs.length - 1]?.users;
+              users = nextMsgs[nextMsgs.length - 1]?.users.push(typingMsg.user)
+            }
+          }
+          return nextMsgs;
+        })
+      }
+    });
+
+    socket?.current?.on('stop_typing', (stypingMsg) => {
+      if (stypingMsg.conversation.id === selectedConversation?.id) {
+        setMessages(msgs => {
+          const nextMsgs = [...msgs];
+          const lastMsg = msgs[msgs.length - 1];
+          if (lastMsg.isTyping) {
+            const isExist = nextMsgs[nextMsgs.length - 1]?.users?.some(usr => usr.id === stypingMsg.user.id);
+            if (isExist) {
+              let users = nextMsgs[nextMsgs.length - 1]?.users;
+              nextMsgs[nextMsgs.length - 1]?.users.filter(usr => usr.id !== stypingMsg.user.id);
+            }
+            if (users?.length === 0) {
+              nextMsgs.pop();
+            }
+          }
+          return nextMsgs;
+        })
       }
     })
+
     return () => {
       socket?.current?.off('connect');
       socket?.current?.off('new_conversation');
       socket?.current?.off('new_message');
       socket?.current?.off('typing');
+      socket?.current?.off('stop_typing');
     }
   }, [messages, conversationsData?.conversations, selectedConversation, setTypingConversation, me]);
-
 
   useEffect(() => {
     switch (state.isTyping) {
       case TYPING_STATES.IS_TYPING: {
-        sendTyping({ conversationId: selectedConversation?.id, user: me });
+        sendTyping({ conversation: selectedConversation, user: me });
         return;
       }
       case TYPING_STATES.STOP_TYPING: {
-        sendStopTyping({ conversationId: selectedConversation?.id, user: me });
+        sendStopTyping({ conversation: selectedConversation, user: me });
         return;
       }
       case TYPING_STATES.INITIAL:
@@ -415,7 +448,6 @@ const Chat: React.FC = () => {
     setState(prev => ({ ...prev, isTyping: TYPING_STATES.IS_TYPING, value }));
   }, [])
 
-  console.log('selectedConversation ', selectedConversation);
   return (
     <>
       <Flex w="100%" justify="end" px={4} py={1}>
@@ -617,16 +649,8 @@ const Chat: React.FC = () => {
             messages={messages}
             startReached={startReachedMessages}
           />
-          <Flex px={4} py={4} alignItems="center" direction="column">
+          <Flex px={4} pb={4} pt={1} alignItems="center" direction="column">
             <Box w="100%">
-              {typingConversation?.[selectedConversation?.id] && <Flex mb={1} alignItems="center">
-                {typingConversation[selectedConversation?.id].map(typing => (
-                  <>
-                    <Text fontSize="12px" color="blue.300" mr={1}>{typing.username} is typing</Text>
-                    <BeatLoader size={5} color='#63B3ED' margin={1} speedMultiplier={0.5}/>
-                  </>
-                ))}
-              </Flex>}
               <AutoResizeTextarea
                 placeholder="Type a message"
                 size="lg"
@@ -635,7 +659,7 @@ const Chat: React.FC = () => {
                 _focus={{
                   outline: "none",
                 }}
-                // onChange={handleInputChange}
+                onChange={handleInputChange}
                 onKeyPress={(event) => {
                   const value = event.currentTarget.value;
                   if (

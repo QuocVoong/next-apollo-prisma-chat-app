@@ -92,7 +92,7 @@ const GroupConversationForm = (props) => {
             console.log('values ', values);
             return (
               <form autoComplete='off' onSubmit={handleSubmit}>
-                <ModalHeader>New Group </ModalHeader>
+                <ModalHeader color="gray.500">New Group </ModalHeader>
                 <ModalCloseButton/>
                 <ModalBody>
                   <InputField label="Group Name" name="name"/>
@@ -136,7 +136,7 @@ const GroupConversationForm = (props) => {
                         {loading && <Flex width="100%" justify="center"><Spinner color='blue.400'/></Flex>}
                         <Box>
                           <OverlayScrollbarsComponent>
-                            <Box style={{ maxHeight: '200px' }}>
+                            <Box style={{ maxHeight: '200px' }} bg="gray.50">
                               {users?.map(user => (
                                 <Flex
                                   key={user.id}
@@ -193,7 +193,7 @@ const GroupConversationForm = (props) => {
                             </Flex>}
                           </>
                           <Box>
-                            <Text fontSize={18} fontWeight="bold">Members</Text>
+                            <Text fontSize={18} fontWeight="bold" color="gray.500">Members</Text>
                             <Flex>
                               {values.members.map(member => (
                                 <Box key={member.id} mr={2}>
@@ -227,7 +227,7 @@ const GroupConversationForm = (props) => {
                   />
                 </ModalBody>
                 <ModalFooter>
-                  <Button variant='ghost' mr={3} onClick={handleOnClose}>Close</Button>
+                  <Button variant='ghost' color="gray.500" mr={3} onClick={handleOnClose}>Close</Button>
                   <Button colorScheme='blue' type="submit" isDisabled={!dirty || !isValid || isSubmitting}
                           isLoading={isSubmitting}>Create</Button>
                 </ModalFooter>

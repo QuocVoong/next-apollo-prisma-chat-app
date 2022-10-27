@@ -1,6 +1,7 @@
 import { Avatar, Box, Flex, WrapItem, Text } from "@chakra-ui/react";
 import React, { useCallback, useState } from "react";
 import { GetMeQuery } from "../graphql/generated/schema";
+import moment from "moment";
 
 type Paticipants = {
   id: string,
@@ -64,10 +65,13 @@ const ConversationList: React.FC = (props: ConversationProps) => {
           <WrapItem>
             <Avatar name={getConversationName(con, me)} src={con.photo} />
           </WrapItem>
-          <Box ml={1} overflowX="hidden">
-            <Text fontSize='lg' noOfLines={1}>{getConversationName(con, me)}</Text>
+          <Flex ml={1} grow={1} overflowX="hidden" direction="column">
+            <Flex w="100%" justify="space-between">
+              <Text fontSize='lg' noOfLines={1}>{getConversationName(con, me)}</Text>
+              <Text color="grey" fontSize={12} mr={1}>{moment(con.Message?.[0]?.updatedAt).format("hh:mm A")}</Text>
+            </Flex>
             <Text fontSize='md' color="grey" noOfLines={1}>{con.Message?.[0]?.text}</Text>
-          </Box>
+          </Flex>
         </Flex>
       ))}
     </Flex>)

@@ -2,10 +2,11 @@ import { Avatar, Flex, Spinner, Tag, Text, WrapItem } from "@chakra-ui/react";
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import moment from "moment";
 import React, { useEffect } from "react";
-import { Message } from "../graphql/generated/schema";
+import { Message, User } from "../graphql/generated/schema";
+import BeatLoader from "react-spinners/BeatLoader";
 
 interface MessageProps {
-  message: Message;
+  message: Message & { isTyping: boolean, users: User[]};
   isMine: Boolean;
   key: String;
 }
@@ -14,6 +15,21 @@ export const MessageBox: React.FC<MessageProps> = ({
   message,
   isMine,
 }) => {
+  if (message.isTyping) {
+    return (
+      <Flex px={6} py={1}>
+        <Flex mb={1} alignItems="center">
+          {message.users?.map(usr => (
+            <>
+              <Text fontSize="12px" color="blue.300" mr={1}>{usr.username} is typing</Text>
+              <BeatLoader size={5} color='#63B3ED' margin={1} speedMultiplier={0.5}/>
+            </>
+          ))}
+        </Flex>
+      </Flex>
+    )
+  }
+
   return (
     <Flex px={6} py={1}>
       {!isMine && (

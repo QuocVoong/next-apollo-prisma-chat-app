@@ -17,13 +17,13 @@ const MessageFeed: React.FC<MessageFeedProps> = ({
   messages,
   startReached,
 }) => {
-  const [firstItemIndex, setFirstItemIndex] = useState(START_INDEX - messages.length);
-
+  const messagesLength = messages[messages.length - 1]?.isTyping ? messages.length - 1 : messages.length;
+  const [firstItemIndex, setFirstItemIndex] = useState(START_INDEX - messagesLength);
   const internalMessages = useMemo(() => {
-    const nextFirstItemIndex = START_INDEX - messages.length;
+    const nextFirstItemIndex = START_INDEX - messagesLength
     setFirstItemIndex(nextFirstItemIndex);
     return messages;
-  }, [messages]);
+  }, [messages, messagesLength]);
 
   const followOutput = useCallback((isAtBottom) => {
     return isAtBottom ? 'smooth' : false;

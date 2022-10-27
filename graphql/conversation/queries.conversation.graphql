@@ -20,6 +20,8 @@ query Conversations($take: Int, $skip: Int, $where: ConversationWhereInput, $mes
             from
             conversationId
             text
+            createdAt
+            updatedAt
         }
     }
     aggregateConversation(where: $where) {

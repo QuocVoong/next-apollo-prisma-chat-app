@@ -2782,7 +2782,7 @@ export type ConversationsQueryVariables = Exact<{
 }>;
 
 
-export type ConversationsQuery = { __typename?: 'Query', conversations: Array<{ __typename?: 'Conversation', id: string, name?: string | null, secondaryName?: string | null, creatorId: string, Paticipants: Array<{ __typename?: 'Paticipants', id: string, type: string, conversationId: string, user: { __typename?: 'User', id: string, email: string, username?: string | null, photo?: string | null } }>, Message: Array<{ __typename?: 'Message', id: string, from: string, conversationId: string, text: string }> }>, aggregateConversation: { __typename?: 'AggregateConversation', _count?: { __typename?: 'ConversationCountAggregate', _all: number } | null } };
+export type ConversationsQuery = { __typename?: 'Query', conversations: Array<{ __typename?: 'Conversation', id: string, name?: string | null, secondaryName?: string | null, creatorId: string, Paticipants: Array<{ __typename?: 'Paticipants', id: string, type: string, conversationId: string, user: { __typename?: 'User', id: string, email: string, username?: string | null, photo?: string | null } }>, Message: Array<{ __typename?: 'Message', id: string, from: string, conversationId: string, text: string, createdAt: any, updatedAt: any }> }>, aggregateConversation: { __typename?: 'AggregateConversation', _count?: { __typename?: 'ConversationCountAggregate', _all: number } | null } };
 
 export type ConversationQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']>;
@@ -2956,6 +2956,8 @@ export const ConversationsDocument = gql`
       from
       conversationId
       text
+      createdAt
+      updatedAt
     }
   }
   aggregateConversation(where: $where) {

@@ -27,7 +27,6 @@ const disconnect = (message) => {
 };
 
 const sendTyping = (message) => {
-  console.log('sendTyping ');
   socket && socket.emit('typing', message);
 };
 
