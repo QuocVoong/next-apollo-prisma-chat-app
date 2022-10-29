@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Avatar,
   Box,
@@ -18,7 +18,8 @@ import {
 import { Search2Icon, AddIcon } from '@chakra-ui/icons'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import moment from "moment";
-import BeatLoader from "react-spinners/BeatLoader";
+import parse from 'autosuggest-highlight/parse';
+import match from 'autosuggest-highlight/match';
 import {
   addNewConversation,
   disconnect,
@@ -39,11 +40,12 @@ import {
 import MessageFeed from "../components/MessageFeed";
 import ConversationList, { getConversationName } from "../components/ConversationList";
 import { connect } from "../chatService";
-import { concat, isEmpty, isEqual } from "lodash";
+import { concat, isEmpty, isEqual, map } from "lodash";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { AutoResizeTextarea } from "../components/AutoResizeTextarea";
 import GroupConversationForm from "../components/GroupConversationForm";
 import { useRouter } from "next/router";
+import SearchBox from "../components/SearchBox";
 
 const TYPING_TIMER_LENGTH = 700;
 const TYPING_STATES = {
@@ -51,6 +53,44 @@ const TYPING_STATES = {
   IS_TYPING: 1,
   STOP_TYPING: 2,
 };
+
+const RenderSearchItem = memo((props) => {
+  const { item: user, query } = props;
+  const parts = useMemo(() => {
+    const matches = match(user?.username, query);
+    return parse(user?.username, matches);
+  }, [user?.username, query]);
+  return (
+    <Flex
+      key={user.id}
+      mb={1}
+      p={2}
+      cursor="pointer"
+      _hover={{
+        bg: "gray.100"
+      }}
+    >
+      <WrapItem>
+        <Avatar
+          name={user.username || user.email}
+          src={user.photo}
+        />
+      </WrapItem>
+      <Box ml={1} overflowX="hidden">
+        <Text
+          fontSize='lg'
+          noOfLines={1}
+        >
+          {parts.map((part, idx) => (
+            <Text key={idx} as="span" bg={part.highlight ? "yellow.200" : "transparent" }>
+              {part.text}
+            </Text>
+          ))}
+        </Text>
+      </Box>
+    </Flex>
+  )
+})
 
 const Chat: React.FC = () => {
   const router = useRouter();
@@ -76,8 +116,47 @@ const Chat: React.FC = () => {
     }
   });
   const [fetchUser, { loading: userLoading, data: userData, fetchMore: fetchMoreUser }] = useUsersLazyQuery({
-    fetchPolicy: "no-cache"
   })
+
+  const handleFetchUser = useCallback((value) => {
+    fetchUser({
+      variables: {
+        "where": {
+          "AND": [
+            {
+              "username": {
+                "contains": value || '$'
+              }
+            },
+            {
+              "id": {
+                "not": {
+                  "equals": me?.id
+                }
+              }
+            }
+          ]
+        },
+        "take": 5,
+        "skip": 0
+      },
+      onCompleted: (result) => {
+        setUsers(result.users);
+      }
+    });
+  }, [fetchUser, userData, me])
+
+  const handleFetchMoreUser = useCallback(() => {
+    fetchMoreUser({
+      variables: {
+        skip: users.length
+      }
+    }).then((result) => setUsers(usrs => concat(usrs, result.data.users)))
+  }, [fetchMoreUser])
+
+  const hasLoadMoreUsers = useMemo(() => {
+    return users.length < userData?.aggregateUser?._count?._all
+  }, [users, userData?.aggregateUser?._count?._all])
 
   const { data: conversationsData, refetch: refetchConversations } = useConversationsQuery({
     variables: {
@@ -296,39 +375,37 @@ const Chat: React.FC = () => {
   }, [state.isTyping, selectedConversation, me]);
 
   const handleClickFindingUser = useCallback((user) => {
-    return () => {
-      setSelectedFindingUser(user);
-      findConversation({
-        variables: {
-          "take": 1,
-          "skip": 0,
-          "where": {
-            "Paticipants": {
-              "every": {
-                "OR": [
-                  {
-                    "type": {
-                      "equals": "SINGLE"
-                    },
-                    "userId": {
-                      "equals": user.id
-                    }
+    setSelectedFindingUser(user);
+    findConversation({
+      variables: {
+        "take": 1,
+        "skip": 0,
+        "where": {
+          "Paticipants": {
+            "every": {
+              "OR": [
+                {
+                  "type": {
+                    "equals": "SINGLE"
                   },
-                  {
-                    "type": {
-                      "equals": "SINGLE"
-                    },
-                    "userId": {
-                      "equals": me?.id
-                    }
+                  "userId": {
+                    "equals": user.id
                   }
-                ]
-              }
+                },
+                {
+                  "type": {
+                    "equals": "SINGLE"
+                  },
+                  "userId": {
+                    "equals": me?.id
+                  }
+                }
+              ]
             }
           }
         }
-      })
-    }
+      }
+    })
   }, [setSelectedFindingUser, findConversation, me])
 
   const emitMessage = async (input: string) => {
@@ -451,7 +528,7 @@ const Chat: React.FC = () => {
   return (
     <>
       <Flex w="100%" justify="end" px={4} py={1}>
-        <Button colorScheme='blue' variant='outline' onClick={() => logout()}>Logout</Button>
+        <Button colorScheme='blue' variant='outline' onClick={logout}>Logout</Button>
       </Flex>
       <Flex
         w="100%"
@@ -486,95 +563,19 @@ const Chat: React.FC = () => {
             </Flex>
             <GroupConversationForm isOpen={isOpen} onClose={onClose} me={me}/>
           </Stack>
-          <Stack>
-            <InputGroup>
-              <Input
-                placeholder='search people'
-                size='md'
-                _focus={{
-                  outline: "none",
-                }}
-                onKeyPress={(event) => {
-                  const value = event.currentTarget.value;
-                  if (event.key === "Enter") {
-                    setSearchText(value);
-                    fetchUser({
-                      variables: {
-                        "where": {
-                          "AND": [
-                            {
-                              "username": {
-                                "contains": value || '$'
-                              }
-                            },
-                            {
-                              "id": {
-                                "not": {
-                                  "equals": me?.id
-                                }
-                              }
-                            }
-                          ]
-                        },
-                        "take": 5,
-                        "skip": 0
-                      },
-                      onCompleted: (result) => {
-                        setUsers(result.users);
-                      }
-                    });
-                  }
-                }}
-              />
-              <InputRightElement>
-                <Search2Icon/>
-              </InputRightElement>
-            </InputGroup>
-            {userLoading && <Flex width="100%" justify="center"><Spinner color='blue.400'/></Flex>}
-            <Box>
-              <OverlayScrollbarsComponent>
-                <Box style={{ maxHeight: '250px' }}>
-                  {users?.map(user => (
-                    <Flex
-                      key={user.id}
-                      mb={1}
-                      p={2}
-                      cursor="pointer"
-                      _hover={{
-                        bg: "gray.100"
-                      }}
-                      onClick={handleClickFindingUser(user)}
-                    >
-                      <WrapItem>
-                        <Avatar
-                          name={user.username || user.email}
-                          src={user.photo}
-                        />
-                      </WrapItem>
-                      <Box ml={1} overflowX="hidden">
-                        <Text fontSize='lg' noOfLines={1}>{user.username || user.email}</Text>
-                      </Box>
-                    </Flex>
-                  ))}
-                </Box>
-              </OverlayScrollbarsComponent>
-              <>
-                {users.length < userData?.aggregateUser?._count?._all && <Flex justify="flex-end">
-                  <Button
-                    variant='link'
-                    onClick={() => {
-                      fetchMoreUser({
-                        variables: {
-                          skip: users.length
-                        }
-                      }).then((result) => setUsers(usrs => concat(usrs, result.data.users)))
-                    }}
-                  >More
-                  </Button>
-                </Flex>}
-              </>
-            </Box>
-          </Stack>
+          <SearchBox
+            placeholder="search people"
+            itemToString={(item) => item.username}
+            loading={true}
+            onFetch={handleFetchUser}
+            hasLoadMore={hasLoadMoreUsers}
+            onFetchMore={handleFetchMoreUser}
+            data={users}
+            selectedItemChange={handleClickFindingUser}
+            components={{
+              renderItem: RenderSearchItem
+            }}
+          />
           <ConversationList
             me={me}
             conversations={conversationsData?.conversations}

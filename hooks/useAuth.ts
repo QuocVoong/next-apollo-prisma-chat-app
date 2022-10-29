@@ -17,7 +17,7 @@ export const useAuth = () => {
     if (!decoded) {
       router.replace("/login");
     }
-  }, [router, decoded])
+  }, [decoded])
 
   return {
     me: decoded && {
