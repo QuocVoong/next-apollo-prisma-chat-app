@@ -3,7 +3,6 @@ import {
   Avatar,
   Box,
   Flex,
-  Input,
   Text,
   WrapItem,
   Icon,
@@ -11,9 +10,6 @@ import {
   Button,
   useToast,
   useDisclosure,
-  InputGroup,
-  InputRightElement,
-  Spinner,
 } from "@chakra-ui/react";
 import { Search2Icon, AddIcon } from '@chakra-ui/icons'
 import { BsThreeDotsVertical } from 'react-icons/bs'
@@ -35,17 +31,15 @@ import {
   useMessagesQuery,
   useUpdateOneConversationMutation,
   useUsersLazyQuery,
-  useUsersQuery
 } from "../graphql/generated/schema";
 import MessageFeed from "../components/MessageFeed";
 import ConversationList, { getConversationName } from "../components/ConversationList";
 import { connect } from "../chatService";
-import { concat, isEmpty, isEqual, map } from "lodash";
-import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
-import { AutoResizeTextarea } from "../components/AutoResizeTextarea";
+import { concat, isEqual } from "lodash";
 import GroupConversationForm from "../components/GroupConversationForm";
 import { useRouter } from "next/router";
 import SearchBox from "../components/SearchBox";
+import MessageInput from "../components/MessageInput";
 
 const TYPING_TIMER_LENGTH = 700;
 const TYPING_STATES = {
@@ -100,11 +94,9 @@ const Chat: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedConversation, setSelectedConversation] = useState();
   const [selectedFindingUser, setSelectedFindingUser] = useState();
-  const [searchText, setSearchText] = useState<string>();
   const [messages, setMessages] = useState<any>([]);
   const [sendMessage] = useCreateOneMessageMutation({});
   const [users, setUsers] = useState([]);
-  const [typingConversation, setTypingConversation] = useState({});
   const [state, setState] = useState({ value: '', isTyping: TYPING_STATES.INITIAL });
   const lastTypingTimeRef = useRef((new Date()).getTime());
   const timerRef = useRef();
@@ -356,7 +348,7 @@ const Chat: React.FC = () => {
       socket?.current?.off('typing');
       socket?.current?.off('stop_typing');
     }
-  }, [messages, conversationsData?.conversations, selectedConversation, setTypingConversation, me]);
+  }, [messages, conversationsData?.conversations, selectedConversation, me]);
 
   useEffect(() => {
     switch (state.isTyping) {
@@ -635,7 +627,7 @@ const Chat: React.FC = () => {
                     onClick={() => {
                       emitMessage("Hello!")
                     }}
-                  >Say Hi!
+                  >Say Hi! {String.fromCodePoint(0x1f590)}
                   </Button>
                 </Flex>
               ) : (
@@ -652,7 +644,7 @@ const Chat: React.FC = () => {
           />
           <Flex px={4} pb={4} pt={1} alignItems="center" direction="column">
             <Box w="100%">
-              <AutoResizeTextarea
+              <MessageInput
                 placeholder="Type a message"
                 size="lg"
                 bg="white"

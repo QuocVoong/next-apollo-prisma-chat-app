@@ -50,7 +50,6 @@ function SearchBox(props) {
     }
   });
 
-  console.log('hasLoadMore ', hasLoadMore);
   return (
     <Box>
       <div>
