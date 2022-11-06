@@ -25,7 +25,7 @@ const RenderItem = memo(({ text, query }) => {
 
 function SearchBox(props) {
   const { loading, data, itemToString, onFetch, onFetchMore, selectedItemChange, placeholder, hasLoadMore, components = {} } = props;
-  const onFetchDebounce = useCallback(debounce(onFetch, 200), []);
+  const onFetchDebounce = useCallback(debounce(onFetch, 200), [onFetch]);
 
   const RenderItemComponent = components.renderItem;
 

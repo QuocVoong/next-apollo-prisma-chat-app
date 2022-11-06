@@ -9,16 +9,20 @@ import {
   Stack,
   Button,
   useToast,
-  useDisclosure,
+  useDisclosure, GridItem, Grid,
 } from "@chakra-ui/react";
-import { Search2Icon, AddIcon } from '@chakra-ui/icons'
-import { BsThreeDotsVertical } from 'react-icons/bs'
+import { Search2Icon, AddIcon } from '@chakra-ui/icons';
+import { BsThreeDotsVertical, BsFillCameraVideoFill, BsFillTelephoneFill, BsFillTelephoneXFill } from 'react-icons/bs';
 import moment from "moment";
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
+import SimplePeer from "simple-peer";
 import {
   addNewConversation,
   disconnect,
+  sendCallRequest,
+  sendCallResponse,
+  sendLeftCall,
   sendMessage as sendSocketMessage,
   sendStopTyping,
   sendTyping
@@ -40,6 +44,9 @@ import GroupConversationForm from "../components/GroupConversationForm";
 import { useRouter } from "next/router";
 import SearchBox from "../components/SearchBox";
 import MessageInput from "../components/MessageInput";
+import Alert from "../components/Alert";
+import Video from "../components/Video";
+import Microphone from "../components/Microphone";
 
 const TYPING_TIMER_LENGTH = 700;
 const TYPING_STATES = {
@@ -76,7 +83,7 @@ const RenderSearchItem = memo((props) => {
           noOfLines={1}
         >
           {parts.map((part, idx) => (
-            <Text key={idx} as="span" bg={part.highlight ? "yellow.200" : "transparent" }>
+            <Text key={idx} as="span" bg={part.highlight ? "yellow.200" : "transparent"}>
               {part.text}
             </Text>
           ))}
@@ -89,6 +96,7 @@ const RenderSearchItem = memo((props) => {
 const Chat: React.FC = () => {
   const router = useRouter();
   const socket = useRef();
+  const peerRef = useRef();
   const { me, token } = useAuth();
   const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -101,14 +109,24 @@ const Chat: React.FC = () => {
   const lastTypingTimeRef = useRef((new Date()).getTime());
   const timerRef = useRef();
   const contentRef = useRef('');
+  const { isOpen: isCallingConfirmOpen, onOpen: onOpenCallingConfirm, onClose: onCloseCallingConfirm } = useDisclosure()
+  const [callingMsg, setCallingMsg] = useState('');
+  const [callState, setCallState] = useState({
+    conversation: null,
+    signal: null,
+    status: 'IDLE',
+    localStream: null,
+    remoteStream: null,
+    currentMember: [],
+    peers: []
+  });
 
   const [logout] = useLogoutLazyQuery({
     onCompleted: () => {
       router.push('/login');
     }
   });
-  const [fetchUser, { loading: userLoading, data: userData, fetchMore: fetchMoreUser }] = useUsersLazyQuery({
-  })
+  const [fetchUser, { loading: userLoading, data: userData, fetchMore: fetchMoreUser }] = useUsersLazyQuery({})
 
   const handleFetchUser = useCallback((value) => {
     fetchUser({
@@ -136,7 +154,7 @@ const Chat: React.FC = () => {
         setUsers(result.users);
       }
     });
-  }, [fetchUser, userData, me])
+  }, [fetchUser, me])
 
   const handleFetchMoreUser = useCallback(() => {
     fetchMoreUser({
@@ -144,7 +162,7 @@ const Chat: React.FC = () => {
         skip: users.length
       }
     }).then((result) => setUsers(usrs => concat(usrs, result.data.users)))
-  }, [fetchMoreUser])
+  }, [fetchMoreUser, users])
 
   const hasLoadMoreUsers = useMemo(() => {
     return users.length < userData?.aggregateUser?._count?._all
@@ -219,7 +237,7 @@ const Chat: React.FC = () => {
       console.log('disconnect ');
       disconnect(me);
     }
-  }, [token])
+  }, [token, me])
 
   useEffect(() => {
     socket?.current?.on('connect', () => {
@@ -341,14 +359,61 @@ const Chat: React.FC = () => {
       }
     })
 
+    socket?.current?.on('call_request', (callRequestMsg) => {
+      setCallingMsg(`Receive a call from ${callRequestMsg.fromUser.username}`);
+      setCallState((s) => ({ ...s, signal: callRequestMsg.signal, conversation: callRequestMsg.conversation, currentMember: callRequestMsg.currentMember }));
+      onOpenCallingConfirm();
+    })
+
+    socket?.current?.on('call_response', (callResponseMsg) => {
+      if (!callResponseMsg.accept) {
+        if (callState.currentMember.Paticipants.length === 2 || callState.currentMember.length === 2) {
+          setCallState(s => ({
+            conversation: null,
+            signal: null,
+            status: 'IDLE',
+            localStream: null,
+            remoteStream: null,
+            currentMember: [],
+            peers: []
+          }))
+        }
+      }
+      if (callResponseMsg.accept && callResponseMsg.signal) {
+        peerRef.current?.signal(callResponseMsg.signal)
+        setCallState(s => ({ ...s, currentMember: [...s.currentMember, callResponseMsg.fromUser ]}))
+      }
+    })
+
+    socket?.current?.on('left_call', (leftCallMsg) => {
+      if (leftCallMsg.conversation.Paticipants.length === 2) {
+        callState.localStream?.getTracks().forEach((track) => track.stop());
+        callState.remoteStream?.getTracks().forEach((track) => track.stop());
+        setCallState({
+          conversation: null,
+          signal: null,
+          status: 'IDLE',
+          localStream: null,
+          remoteStream: null,
+          currentMember: [],
+          peers: [],
+        })
+      }
+      onCloseCallingConfirm();
+    })
+
     return () => {
       socket?.current?.off('connect');
       socket?.current?.off('new_conversation');
       socket?.current?.off('new_message');
       socket?.current?.off('typing');
       socket?.current?.off('stop_typing');
+      socket?.current?.off('call_request');
+      socket?.current?.off('call_response');
+      socket?.current?.off('join_call');
+      socket?.current?.off('left_call');
     }
-  }, [messages, conversationsData?.conversations, selectedConversation, me]);
+  }, [messages, conversationsData?.conversations, selectedConversation, callState, me]);
 
   useEffect(() => {
     switch (state.isTyping) {
@@ -517,6 +582,96 @@ const Chat: React.FC = () => {
     setState(prev => ({ ...prev, isTyping: TYPING_STATES.IS_TYPING, value }));
   }, [])
 
+  const handleCallRequest = useCallback((audioOnly) => {
+    return () => {
+      navigator.mediaDevices.getUserMedia({ audio: true, video: !audioOnly})
+        .then((stream) => {
+          setCallState(s => ({ ...s, localStream: stream }));
+          const peer = new SimplePeer({
+            initiator: true,
+            trickle: false,
+            config: {
+              iceServers: [
+                {
+                  urls: "stun:stun.l.google.com:19302",
+                },
+              ],
+            },
+            stream: stream,
+          });
+          peerRef.current = peer;
+
+          peer.on("signal", (signal) => {
+            console.log("SIGNAL", signal);
+            sendCallRequest({ audioOnly, conversation: selectedConversation, fromUser: me, currentMember: [{ ...me, isAudioOnly: audioOnly }], signal });
+          });
+
+          peer.on("stream", (stream) => {
+            console.log("REMOTE STREAM", stream);
+            setCallState(s => ({ ...s, remoteStream: stream }))
+          });
+
+          setCallState(s => ({ ...s, isAudioOnly: audioOnly}))
+        })
+        .catch(err => console.log(err))
+      setCallState(s => ({ ...s, status: 'CALLING', conversation: selectedConversation, currentMember: [{ ...me, isAudioOnly: audioOnly }] }))
+    }
+  }, [selectedConversation, setCallState, me]);
+
+  const handleCallResponse = useCallback((accept, audioOnly) => {
+    return () => {
+      if (accept) {
+        navigator.mediaDevices.getUserMedia({ audio: true, video: !audioOnly })
+          .then((stream) => {
+            setCallState(s => ({ ...s, localStream: stream }));
+            const peer = new SimplePeer({
+              initiator: false,
+              trickle: false,
+              config: {
+                iceServers: [
+                  {
+                    urls: "stun:stun.l.google.com:19302",
+                  },
+                ],
+              },
+              stream: stream,
+            });
+            peerRef.current = peer;
+
+            peer.on("signal", (signal) => {
+              console.log("SIGNAL Res", signal);
+              sendCallResponse({ conversation: callState.conversation, fromUser: { ...me, isAudioOnly: audioOnly }, accept: true, signal })
+            });
+            peer.on("stream", (stream) => {
+              console.log("REMOTE STREAM 1", stream);
+              setCallState(s => ({ ...s, remoteStream: stream }))
+            });
+            peer.signal(callState?.signal);
+
+            // TODO
+            setCallState(s => ({ ...s, status: 'CALLING', isAudioOnly: true, currentMember: [{ ...me, isAudioOnly: audioOnly }, ...s.currentMember] }))
+          })
+          .catch(err => console.log(err));
+      }
+      onCloseCallingConfirm();
+    }
+  }, [callState, setCallState, me, onCloseCallingConfirm]);
+
+  const handleEndCall = useCallback(() => {
+    callState.localStream?.getTracks().forEach((track) => track.stop());
+    callState.remoteStream?.getTracks().forEach((track) => track.stop());
+    setCallState({
+      conversation: null,
+      signal: null,
+      status: 'IDLE',
+      localStream: null,
+      remoteStream: null,
+      currentMember: [],
+      peers: [],
+    });
+    sendLeftCall({ conversation: selectedConversation, fromUser: me, signal: callState.signal })
+  }, [callState])
+
   return (
     <>
       <Flex w="100%" justify="end" px={4} py={1}>
@@ -608,6 +763,22 @@ const Chat: React.FC = () => {
                   </Flex>
                   <Flex align="center">
                     <Search2Icon m={2}/>
+                    <Button
+                      variant='ghost'
+                      width="40px"
+                      borderRadius="50%"
+                      disabled={callState.status === 'CALLING'}
+                      onClick={handleCallRequest(false)}>
+                      <Icon as={BsFillCameraVideoFill} m={2}></Icon>
+                    </Button>
+                    <Button
+                      variant='ghost'
+                      width="40px"
+                      borderRadius="50%"
+                      disabled={callState.status === 'CALLING'}
+                      onClick={handleCallRequest(true)}>
+                      <Icon as={BsFillTelephoneFill} m={2}></Icon>
+                    </Button>
                     <AddIcon m={2}/>
                   </Flex>
                 </>
@@ -637,11 +808,58 @@ const Chat: React.FC = () => {
               )
             }
           </Flex>
-          <MessageFeed
-            me={me}
-            messages={messages}
-            startReached={startReachedMessages}
-          />
+          {callState.status === 'CALLING'
+            ? (<Flex grow={1} direction="column" position="relative" px={2} py={4} sx={{ _hover: { '.action': { display: 'flex' } }}}>
+              <Grid templateColumns='repeat(2, 1fr)' gap={2}>
+                {callState.localStream && callState.currentMember?.map((member, i) => (
+                  <GridItem key={member.id} minHeight="150px" border="1px solid lightgrey" borderRadius="4px" position="relative">
+                    {member.isAudioOnly && <Avatar
+                      sx={{
+                        position: "absolute",
+                        left: "50%",
+                        top: "50%",
+                        transform: "translate(-50%,-50%)"
+                      }}
+                      name={member.username}
+                      src={member.photo}
+                    />}
+                    {callState.localStream && i=== 0 && <Video stream={callState.localStream} isLocalStream={true} />}
+                    {callState.remoteStream && i!== 0 && <Video stream={callState.remoteStream} isLocalStream={false} />}
+                  </GridItem>
+                ))}
+              </Grid>
+              <Box
+                className="action"
+                p={3}
+                bg="gray.200"
+                borderRadius="16px"
+                sx={{
+                  position: 'absolute',
+                  bottom: '4px',
+                  left: "50%",
+                  transform: 'translate(-50%, 0)',
+                  display: 'none',
+                }}
+              >
+                <Microphone localStream={callState.localStream} />
+                <Button
+                  variant='ghost'
+                  width="40px"
+                  borderRadius="50%"
+                  color="red.400"
+                  onClick={handleEndCall}>
+                  <Icon as={BsFillTelephoneXFill} m={2}></Icon>
+                </Button>
+              </Box>
+            </Flex>)
+            : (
+              <MessageFeed
+                me={me}
+                messages={messages}
+                startReached={startReachedMessages}
+              />
+            )
+          }
           <Flex px={4} pb={4} pt={1} alignItems="center" direction="column">
             <Box w="100%">
               <MessageInput
@@ -667,6 +885,20 @@ const Chat: React.FC = () => {
               />
             </Box>
           </Flex>
+          <Alert
+            isOpen={isCallingConfirmOpen}
+            okText="Accept Audio"
+            cancelText="Reject"
+            title="Calling"
+            message={callingMsg}
+            onOk={handleCallResponse(true, true)}
+            onClose={handleCallResponse(false, true)}
+            moreBtn={{
+              text: 'Accept Video',
+              onClick: handleCallResponse(true, false),
+              colorScheme: 'green'
+            }}
+          />
         </Flex>
       </Flex>
       <Flex w="100%" justify="end" px={4} py={1}>Develop by quocvoong</Flex>

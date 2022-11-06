@@ -13,7 +13,7 @@ const MessageInput = (props) => {
     inputRef.current.value = start + emoji + end;
     inputRef.current.selectionEnd = start.length + emoji.length;
     inputRef.current.focus();
-  }, [inputRef.current])
+  }, [inputRef])
 
   return (
     <Flex>

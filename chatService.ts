@@ -34,6 +34,18 @@ const sendStopTyping = (message) => {
   socket && socket.emit('stop_typing', message);
 };
 
+const sendCallRequest = (message) => {
+  socket && socket.emit('call_request', message);
+};
+
+const sendCallResponse = (message) => {
+  socket && socket.emit('call_response', message);
+};
+
+const sendLeftCall = (message) => {
+  socket && socket.emit('left_call', message);
+};
+
 export {
   connect,
   disconnect,
@@ -41,4 +53,7 @@ export {
   sendMessage,
   sendTyping,
   sendStopTyping,
+  sendCallRequest,
+  sendCallResponse,
+  sendLeftCall,
 };
